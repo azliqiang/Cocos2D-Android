@@ -1,0 +1,240 @@
+{\rtf1\ansi\ansicpg936\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fnil\fcharset0 Monaco;\f1\fnil\fcharset134 STHeitiSC-Light;}
+{\colortbl;\red255\green255\blue255;\red127\green0\blue85;\red0\green0\blue192;\red100\green100\blue100;
+\red63\green127\blue95;\red42\green0\blue255;\red127\green159\blue191;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh10640\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f0\fs22 \cf0 \
+\pard\pardeftab720
+
+\f1 \cf2 cocos2d-\'b0\'b2\'d7\'bf-nijia\
+\
+\pard\pardeftab720
+
+\f0 \cf2 \
+public\cf0  \cf2 class\cf0  MainActivity \cf2 extends\cf0  Activity \{\
+\
+	\cf2 private\cf0  CCDirector \cf3 director\cf0  = \cf2 null\cf0 ;\
+	\cf2 private\cf0  CCGLSurfaceView \cf3 view\cf0  = \cf2 null\cf0 ;\
+\
+	\cf4 @Override\cf0 \
+	\cf2 protected\cf0  \cf2 void\cf0  onCreate(Bundle savedInstanceState) \{\
+		\cf2 super\cf0 .onCreate(savedInstanceState);\
+		\cf5 // setContentView(R.layout.activity_main);\cf0 \
+\
+		\cf3 view\cf0  = \cf2 new\cf0  CCGLSurfaceView(\cf2 this\cf0 );\
+		setContentView(\cf3 view\cf0 );\
+\
+		\cf5 // ?????? CCDirector ??????\cf0 \
+		\cf3 director\cf0  = CCDirector.sharedDirector();\
+\
+		\cf5 /* ????????????????????????????????? */\cf0 \
+		\cf5 // ?????????????????????????????????????????? view ??????\cf0 \
+		\cf3 director\cf0 .attachInView(\cf3 view\cf0 );\
+		\cf5 // ???????????????????????? FPS ???\cf0 \
+		\cf3 director\cf0 .setDisplayFPS(\cf2 true\cf0 );\
+		\cf5 // ????????????????????????????????????????????????\cf0 \
+		\cf3 director\cf0 .setAnimationInterval(1 / 30.0);\
+\
+		\cf5 /* ?????????????????????????????? */\cf0 \
+		CCScene scene = CCScene.node();\
+\
+		\cf5 // ?????????????????????\cf0 \
+		ccColor4B color = ccColor4B.ccc4(255, 255, 255, 255);\
+		GameLayer gameLayer = \cf2 new\cf0  GameLayer(color);\
+\
+		\cf5 // ?????????????????????????????????????????????\cf0 \
+		scene.addChild(gameLayer);\
+\
+		\cf5 // ??????????????????\cf0 \
+		\cf3 director\cf0 .runWithScene(scene);\
+	\}\
+\}\cf2 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+public\cf0  \cf2 class\cf0  GameLayer \cf2 extends\cf0  CCColorLayer \{ \cf5 // \ul Ctrl\ulnone  + Shift + o\cf0 \
+\
+	CGSize \cf3 winSize\cf0  = \cf2 null\cf0 ;\
+	\cf2 int\cf0  \cf3 bulletV\cf0  = 480;\
+	Random \cf3 random\cf0  = \cf2 new\cf0  Random();\
+\
+	List<CCSprite> \cf3 bullets\cf0  = \cf2 new\cf0  ArrayList<CCSprite>();\
+	List<CCSprite> \cf3 targets\cf0  = \cf2 new\cf0  ArrayList<CCSprite>();\
+\
+	GameLayer(ccColor4B color) \{\
+		\cf5 /*\cf0 \
+\pard\pardeftab720
+\cf5 		 * Call the parent class's constructor must be the first statement on\cf0 \
+\cf5 		 * the method\cf0 \
+\cf5 		 */\cf0 \
+		\cf2 super\cf0 (color);\
+		setIsTouchEnabled(\cf2 true\cf0 );\
+		\cf5 // Get the size of the screen\cf0 \
+		\cf3 winSize\cf0  = CCDirector.sharedDirector().displaySize();\
+\
+		addHero();\
+\
+		schedule(\cf6 "addTarget"\cf0 , 1f);\
+		schedule(\cf6 "check"\cf0 );\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  addTarget(\cf2 float\cf0  delta) \{\
+\
+		CCSprite targetSprite = CCSprite.sprite(\cf6 "Target.png"\cf0 );\
+		\cf2 this\cf0 .addChild(targetSprite);\
+		targetSprite.setTag(1);\
+		\cf3 targets\cf0 .add(targetSprite);\
+\
+		CGSize targetSize = targetSprite.getContentSize();\
+		\cf2 float\cf0  targetInitX = \cf3 winSize\cf0 .\cf3 width\cf0  + targetSize.\cf3 width\cf0  / 2;\
+		\cf2 float\cf0  targetInitY = \cf3 random\cf0 \
+				.nextInt((\cf2 int\cf0 ) (\cf3 winSize\cf0 .\cf3 height\cf0  - targetSize.\cf3 height\cf0 ))\
+				+ targetSize.\cf3 height\cf0  / 2;\
+		CGPoint initPoint = CGPoint.ccp(targetInitX, targetInitY);\
+		targetSprite.setPosition(initPoint);\
+\
+		\cf2 float\cf0  targetEndX = -targetSize.\cf3 width\cf0  / 2;\
+		\cf2 float\cf0  targetEndY = targetInitY;\
+		CGPoint endPoint = CGPoint.ccp(targetEndX, targetEndY);\
+\
+		\cf2 float\cf0  t = \cf3 random\cf0 .nextFloat() * 2 + 2;\
+		CCMoveTo moveTo = CCMoveTo.action(t, endPoint);\
+		CCCallFuncN funcN = CCCallFuncN.action(\cf2 this\cf0 , \cf6 "onMoveFinished"\cf0 );\
+		CCSequence seq = CCSequence.actions(moveTo, funcN);\
+\
+		targetSprite.runAction(seq);\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  addHero() \{\
+\
+		CCSprite hero = CCSprite.sprite(\cf6 "Player.png"\cf0 );\
+		CGSize size = hero.getContentSize();\
+		CGPoint pos = CGPoint.ccp(size.\cf3 width\cf0  / 2, \cf3 winSize\cf0 .\cf3 height\cf0  / 2);\
+		hero.setPosition(pos);\
+		\cf2 this\cf0 .addChild(hero);\
+	\}\
+\
+	\cf5 /*\cf0 \
+\cf5 	 * ?????????????????? Source --> Override/Implement Methods...\cf0 \
+\cf5 	 * ?????????????????????ccTouchesBegan(MotionEvent)\cf0 \
+\cf5 	 */\cf0 \
+\
+	\cf4 @Override\cf0 \
+	\cf2 public\cf0  \cf2 boolean\cf0  ccTouchesBegan(MotionEvent event) \{\
+\
+		\cf2 float\cf0  x = event.getX();\
+		\cf2 float\cf0  y = \cf3 winSize\cf0 .\cf3 height\cf0  - event.getY();\
+\
+		CCSprite bullet = CCSprite.sprite(\cf6 "Bullet.png"\cf0 );\
+		\cf5 // ????????????????????? CGSize ???????????????????????????\cf0 \
+		CGSize bulletSize = bullet.getContentSize();\
+		bullet.setTag(2);\
+		\cf3 bullets\cf0 .add(bullet);\
+		\cf2 this\cf0 .addChild(bullet);\
+\
+		\cf2 float\cf0  initX = bulletSize.\cf3 width\cf0  / 2;\
+		\cf2 float\cf0  initY = \cf3 winSize\cf0 .\cf3 height\cf0  / 2;\
+		CGPoint initPoint = CGPoint.ccp(initX, initY);\
+		bullet.setPosition(initPoint);\
+\
+		\cf2 float\cf0  endX = \cf3 winSize\cf0 .\cf3 width\cf0  + bulletSize.\cf3 width\cf0  / 2;\
+		\cf2 float\cf0  endY = \cf3 winSize\cf0 .\cf3 width\cf0  * (y - initY) / (x - initX) + \cf3 winSize\cf0 .\cf3 height\cf0 \
+				/ 2;\
+		CGPoint endPoint = CGPoint.ccp(endX, endY);\
+\
+		\cf2 float\cf0  distance = CGPoint.ccpDistance(initPoint, endPoint);\
+		\cf2 float\cf0  t = distance / \cf3 bulletV\cf0 ;\
+\
+		CCMoveTo moveTo = CCMoveTo.action(t, endPoint);\
+		CCCallFuncN func = CCCallFuncN.action(\cf2 this\cf0 , \cf6 "onMoveFinished"\cf0 );\
+		CCSequence seq = CCSequence.actions(moveTo, func);\
+\
+		bullet.runAction(seq);\
+\
+		\cf5 // \cf7 TODO\cf5  Auto-generated method stub\cf0 \
+		\cf2 return\cf0  \cf2 super\cf0 .ccTouchesBegan(event);\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  onMoveFinished(Object sender) \{\
+\
+		CCSprite sprite = (CCSprite) sender;\
+		\cf2 this\cf0 .removeChild(sprite, \cf2 true\cf0 );\
+\
+		\cf2 if\cf0  (1 == sprite.getTag()) \{\
+			\cf3 targets\cf0 .remove(sprite);\
+		\} \cf2 else\cf0  \cf2 if\cf0  (2 == sprite.getTag()) \{\
+			\cf3 bullets\cf0 .remove(sprite);\
+		\}\
+\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  check(\cf2 float\cf0  delta) \{\
+\
+		List<CCSprite> deleteBullets = \cf2 new\cf0  ArrayList<CCSprite>();\
+\
+		\cf2 for\cf0  (\cf2 int\cf0  i = 0; i < \cf3 bullets\cf0 .size(); i++) \{\
+\
+			CCSprite bullet = \cf3 bullets\cf0 .get(i);\
+			CGPoint pos = bullet.getPosition();\
+			CGSize size = bullet.getContentSize();\
+			CGRect bulletRect = CGRect.make(pos.\cf3 x\cf0  - size.\cf3 width\cf0  / 2, pos.\cf3 y\cf0 \
+					- size.\cf3 height\cf0  / 2, size.\cf3 width\cf0 , size.\cf3 height\cf0 );\
+\
+			List<CCSprite> deleteTargets = \cf2 new\cf0  ArrayList<CCSprite>();\
+\
+			\cf2 for\cf0  (\cf2 int\cf0  j = 0; j < \cf3 targets\cf0 .size(); j++) \{\
+\
+				CCSprite target = \cf3 targets\cf0 .get(j);\
+				CGPoint targetPos = target.getPosition();\
+				CGSize targetSize = target.getContentSize();\
+				CGRect targetRect = CGRect.make(targetPos.\cf3 x\cf0  - targetSize.\cf3 width\cf0 \
+						/ 2, targetPos.\cf3 y\cf0  - targetSize.\cf3 height\cf0  / 2,\
+						targetSize.\cf3 width\cf0 , targetSize.\cf3 height\cf0 );\
+\
+				\cf2 boolean\cf0  b = CGRect.intersects(targetRect, bulletRect);\
+				\cf2 if\cf0  (b) \{\
+					System.\cf3 out\cf0 .println(\cf6 "??????"\cf0 );\
+					deleteTargets.add(target);\
+					\cf2 this\cf0 .removeChild(target, \cf2 true\cf0 );\
+				\}\
+			\} \cf5 // end of loop for targets\cf0 \
+\
+			\cf2 if\cf0  (deleteTargets.size() > 0) \{\
+				\cf3 targets\cf0 .removeAll(deleteTargets);\
+				\cf2 this\cf0 .removeChild(bullet, \cf2 true\cf0 );\
+				deleteBullets.add(bullet);\
+			\}\
+		\} \cf5 // end of loop for bullets\cf0 \
+\
+		\cf2 if\cf0  (deleteBullets.size() > 0) \{\
+			\cf3 bullets\cf0 .removeAll(deleteBullets);\
+		\}\
+	\}\
+\}\
+\
+\
+\
+\
+\
+\
+\
+\
+}

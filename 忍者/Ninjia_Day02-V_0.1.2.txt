@@ -1,0 +1,466 @@
+
+/*
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Copyleft (C) 2009-2015
+ * COEO - China Open Education Organization
+ * "+++New Life+++" Team for Computer Science
+ * Free as in freedom. The Truth Will Free You.
+ * 张开自由的翅膀，真理要释放你。
+ * To teach the inexperienced the ropes 
+ * and give our young people a grasp on reality.
+ * 教导没有经验的得以丰富，给予青年人开启真理的钥匙。
+ * The old life is gone; a new life burgeons!
+ * 告别飘逝的过去，拥抱怒放的新生！
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This file is available to you under a choice of one of two licenses.
+ *
+ * GPL
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published
+ * by the Free Software Foundation.
+ *
+ * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE
+ * ARE EXPRESSLY DISCLAIMED.
+ *
+ * See the GNU General Public License * for more details.
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * 
+ * BSD
+ *
+ *  Alternatively you can redistribute this file under the terms of the
+ *  BSD license as stated below:
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *  3. The names of its contributors may not be used to endorse or promote
+ *     products derived from this software without specific prior written
+ *     permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Description:
+ *     This file describe Cocos2d-Android Ninjia game.
+ *
+ * Original Date:
+ *     Aug-31-2014
+ *
+ * Modified Date:
+ *     Apr-24-2015
+ *
+ * Authors:
+ *     Yuhui    <abrahambenyu@gmail.com>
+ *
+ * Current Version:
+ *     0.1.2
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Table of Centents
+
+    01. Prepare Environment
+    02. Constructor - GameLayer
+    03. Enemy Appear - addTarget
+    04. Hero - addHero()
+    05. Bullet - ccTouchesBegan
+    06. Destroy the Enemy - check
+    07. Delete the Enemy - onMoveFinished
+    08. Running and Debugging
+    09. Conclusion
+
+
+01. Prepare Environment
+
+    1.01  Project
+
+          1.1.01  New Project
+
+          1.1.02  Including Cocos2d Libraries
+
+    1.02  Coding
+
+          1.2.01  Generating a CCGLSurfceView
+
+          1.2.02  Obtain CCDirector Object
+
+          1.2.03  Set Application-Related Properties
+
+          1.2.04  Generating an Scenes Object Layer
+
+          1.2.05  Generating an Background Object Layer
+
+          1.2.06  Adding Background Object to Scene
+
+          1.2.07  Running this Scene Objects
+
+    1.03  Running and Debugging
+
+          1.3.01  Logcat
+
+          1.3.02  Refactoring
+
+02. Constructor - GameLayer
+
+    2.01  Introduction
+
+          01. 复杂的就是这里了，大部分的游戏设计都在这里面完成；
+          02. 这里可以有多个背景层，多个同时完成游戏的开发；
+          03. 现在我们分析一下啊，看看我们的男一号和敌一号，他们好像都是黑乎乎的， 
+              所以我们的背景就不能也是黑的了，那么让我们的 GameLayer 继承 CCColorLayer；
+          04. 那么，下面我们来分析一下 CCColorLayer 是怎么设计的吧？
+
+    2.02  CCColor Layer
+
+          //
+          // CCColorLayer
+          //
+          /** CCColorLayer is a subclass of CCLayer that implements the CCRGBAProtocol protocol.
+
+              All features from CCLayer are valid, plus the following new features:
+              - opacity
+              - RGB colors
+           */
+
+          // cocos2d/cocos2d-android/src/org/cocos2d/layers/CCColorLayer.java
+
+    2.03  Source Code
+
+          (1) public class GameLayer extends CCColorLayer {  // Ctrl + Shift + o
+	
+          (5)    CGSize winSize = null;
+
+          (2)    protected GameLayer(ccColor4B color) {
+                     /*
+                      * Call the parent class's constructor
+                      * must be the first statement on the method
+                      */
+          (3)        super(color);
+          (4)        setIsTouchEnabled(true);
+                     // Get the size of the screen
+          (6)        winSize = CCDirector.sharedDirector().displaySize();
+          (7)        schedule("addTarget", 1f);
+          (8)        schedule("check");
+                 }
+
+          修改 MainActivity.java：
+                 /* 生成一个游戏场景对象  */
+	  (9)	 CCScene scene = CCScene.node();
+          (10)   ccColor4B color = ccColor4B.ccc4(255, 255, 255, 255);
+
+    2.04  Description
+
+          2.4.01  Constructor
+
+                  01. 构造函数是不可缺少的，背景层需要动态生成时游戏的初使化都写在这里；
+                  02. 如果有其它需要在初使化时完成的，都写到这个构造函数里面。
+
+          2.4.02  schedule()
+
+                  2.4.2.01  Introduction
+
+                            01. 在游戏中，要检测两个运动的物体什么时候否碰撞，就必须在每一帧中对两个物体
+                                的矩阵范围进行判断，是否出现相交；
+                            02. 同样的，一些游戏动画，为了做出动画效果，我们在设置动作的同时，还需要对每
+                                一帧的画面进行布局，在 cocos2d 中就可以使用 schedule() 函数实现了。
+
+                  2.4.2.02  Implementation Source Code
+
+                            void CCNode::schedule(SEL_SCHEDULE selector)
+                            {
+                                this->schedule(selector, 0);
+                            }
+
+                            void CCNode::schedule(SEL_SCHEDULE selector, ccTime interval)
+                            {
+                                CCAssert(selector, "Argument must be non-nil");
+                                CCAssert(interval >=0, "Argument must be positive");
+
+                                CCScheduler::sharedScheduler()->scheduleSelector(selector,
+                                        this, interval, !m_bIsRunning);
+                            }
+
+                  2.4.2.03  Description
+
+                            01. 第一个参数是回调类型，这里使用 schedule_selector，
+                                如 schedule_selector(MyClass::MyCallbackFunction)；
+                            02. 第二个参数是间隔时间，即多久调用 MyCallbackFunction 函数。
+
+    2.06  Background Color - MainActivity.java
+
+          // 生成一个布景层对象
+          ccColor4B color = ccColor4B.ccc4(255, 255, 255, 255);
+          GameLayer gameLayer = new GameLayer(color);
+
+    2.07  Building, Troubleshooting, Thinking
+
+          背景是白色的了。
+
+03. Enemy Appear - addTarget
+
+    3.01  Introduction
+
+          01. 1598 年，丰臣秀吉在" 伏见城" 病逝，丰臣家裂分为近江（西军）和尾张（东军）两派；
+          02. 民不聊生，强盗肆虐，烧杀抢掠无恶不作，下面让这些强盗出场吧！
+
+    3.02  Source Code
+
+          public class GameLayer extends CCColorLayer {
+	
+              CGSize winSize = null;
+              int bulletV    = 480;
+          (9) Random random  = new Random();
+
+              List<CCSprite> bullets = new ArrayList<CCSprite>();
+          (5) List<CCSprite> targets = new ArrayList<CCSprite>();
+
+              // 该方法用于向屏幕当中添加一个敌人
+          (1) public void addTarget(float delta) {
+
+                  // 生成一个目标精灵对象
+          (2)     CCSprite targetSprite = CCSprite.sprite("Target.png");
+          (3)     this.addChild(targetSprite);
+          (4)     targetSprite.setTag(1);
+          (6)     targets.add(targetSprite);
+
+          (7)     CGSize targetSize = targetSprite.getContentSize();
+          (8)     float targetInitX = winSize.width + targetSize.width / 2;
+          (10)    float targetInitY = random
+                                      .nextInt((int) (winSize.height - targetSize.height))
+                                      + targetSize.height / 2;
+          (11)    CGPoint initPoint = CGPoint.ccp(targetInitX, targetInitY);
+          (12)    targetSprite.setPosition(initPoint);
+
+          (13)    float targetEndX = -targetSize.width / 2;
+          (14)    float targetEndY = targetInitY;
+          (15)    CGPoint endPoint  = CGPoint.ccp(targetEndX, targetEndY);
+
+          (16.2)  float t = random.nextFloat() * 2 + 2;
+          (16.1)  CCMoveTo moveTo  = CCMoveTo.action(t, endPoint);
+          (17)    CCCallFuncN funcN = CCCallFuncN.action(this, "onMoveFinished");
+          (18)    CCSequence seq   = CCSequence.actions(moveTo, funcN);
+
+          (19)    targetSprite.runAction(seq);
+              }
+
+          } // end of class GameLayer
+
+    3.03  Building, Troubleshooting, Thinking
+
+          01. 每隔一秒钟就会出现一个强盗；
+          02. 看他的进屏幕和出屏幕是否流畅？
+
+    3.04  Exercises
+
+          现在让我们来做一个练习，让强盗出现的频率加快一点，多一些敌人英雄才会出现！
+
+04. Hero - addHero()
+
+    4.01  Introduction
+
+          01. 乱世出英雄，这强盗肆虐的年代，一定要有正义来伸张；
+          02. 还在等什么，Hero 出场吧！
+
+    4.02  Source Code
+
+          public void addHero() {
+
+	      CCSprite hero = CCSprite.sprite("Player.png");
+	      CGSize size = hero.getContentSize();
+	      CGPoint pos = CGPoint.ccp(size.width/2, winSize.height/2);
+	      hero.setPosition(pos);
+	      this.addChild(hero);
+          }
+
+    4.03  Building, Troubleshooting, Thinking
+
+    4.04  Description
+
+05. Bullet - ccTouchesBegan
+
+    5.01  Introduction
+
+          01. 眼见强盗横行，英雄怎能束手不管，战斗吧勇士！
+          02. 屏幕一点就出子弹，或是一直发子弹，那就移动主角了；
+          03. 这些方法我们前面已经接触过了，在这里就是一点击就发射子弹。
+
+    5.02  Source Code
+
+          public class GameLayer extends CCColorLayer {
+	
+              CGSize winSize = null;
+          (17)int bulletV    = 480;
+
+          (6) List<CCSprite> bullets = new ArrayList<CCSprite>();
+
+              /*
+               * 点击菜单栏：  Source --> Override/Implement Methods...
+               * 选择回调函数：ccTouchesBegan(MotionEvent)
+               */
+
+              @Override
+              public boolean ccTouchesBegan(MotionEvent event) {
+
+          (1)     float x = event.getX();
+          (2)     float y = winSize.height - event.getY();
+
+          (3)     CCSprite bullet     = CCSprite.sprite("bullet.png");
+                  // 获取精灵对象的 CGSize 对象，包含了宽和高
+          (4)     CGSize   bulletSize = bullet.getContentSize();
+          (5)     bullet.setTag(2);
+          (7)     bullets.add(bullet);
+          (8)     this.addChild(bullet);
+
+          (9)     float initX       = bulletSize.width / 2;
+          (10)    float initY       = winSize.height / 2;
+          (11)    CGPoint initPoint = CGPoint.ccp(initX, initY);
+          (12)    bullet.setPosition(initPoint);
+
+          (13)    float endX = winSize.width + bulletSize.width / 2;
+          (14)    float endY = winSize.width * (y - initY) / (x - initX) +
+                               winSize.height / 2;
+          (15)    CGPoint endPoint = CGPoint.ccp(endX, endY);
+
+          (16)    float distance   = CGPoint.ccpDistance(initPoint, endPoint);
+          (18)    float t          = distance / bulletV;
+
+          (19)    CCMoveTo moveTo  = CCMoveTo.action(t, endPoint);
+          (20)    CCCallFuncN func = CCCallFuncN.action(this, "onMoveFinished");
+          (21)    CCSequence seq   = CCSequence.actions(moveTo, func);
+
+          (22)    bullet.runAction(seq);
+
+                  // TODO Auto-generated method stub
+                  return super.ccTouchesBegan(event);
+              }
+
+    5.03  Building, Troubleshooting, Thinking
+
+    5.04  Description
+
+06. Destroy the Enemy - check
+
+    6.01  Introduction
+
+          01. 看着强盗横行霸道，而英雄刀不见血，这可是太让人觉得侮辱至极了！
+          02. 快快快，让英雄发威吧，是男人就站出来！
+
+    6.02  Source Code
+
+          (1) public void check(float delta) {
+
+          (23)    List<CCSprite> deleteBullets = new ArrayList<CCSprite>();
+
+          (2)     for (int i = 0; i < bullets.size(); i++) {
+
+          (3)         CCSprite bullet   = bullets.get(i);
+          (4)         CGPoint pos       = bullet.getPosition();
+          (5)         CGSize size       = bullet.getContentSize();
+          (6)         CGRect bulletRect = CGRect.make(pos.x - size.width / 2,
+                                                      pos.y - size.height / 2,
+                                                      size.width, size.height);
+
+          (16)        List<CCSprite> deleteTargets = new ArrayList<CCSprite>();
+			
+          (8)         for (int j = 0; j < targets.size(); j++) {
+
+          (9)             CCSprite target   = targets.get(j);
+          (10)            CGPoint targetPos = target.getPosition();
+          (11)            CGSize targetSize = target.getContentSize();
+          (12)            CGRect targetRect = CGRect.make(targetPos.x - targetSize.width / 2,
+                                                          targetPos.y - targetSize.height / 2,
+                                                          targetSize.width, targetSize.height);
+				
+          (13)            boolean b = CGRect.intersects(targetRect, bulletRect);
+          (14)            if (b) {
+          (15)                System.out.println("碰撞");
+          (17)                deleteTargets.add(target);
+          (18)                this.removeChild(target, true);
+                          }
+                      } // end of loop for targets
+
+          (19)        if (deleteTargets.size() > 0) {
+          (20)            targets.removeAll(deleteTargets);
+          (21)            this.removeChild(bullet, true);
+          (22)            deleteBullets.add(bullet);
+                      }
+                  } // end of loop for bullets
+
+          (24)    if (deleteBullets.size() > 0) {
+          (25)        bullets.removeAll(deleteBullets);
+                  }
+
+              }
+
+    6.03  Building, Troubleshooting, Thinking
+
+    6.04  Description
+
+          01. 你会发现玩一会儿后，小怪物就不出现，而且程序运行会卡了，这是为什么呢？
+          02. 我们的资源没有及时的删除，还记得我们的  onMoveFinished() 方法吗？完成它！
+
+07. Delete the Enemy - onMoveFinished()
+
+    7.01  Introduction
+
+          01. 那么我们怎么把没有没子弹打中的敌人，还有没有打中敌人的子弹资源删除呢？
+          02. 还还记得我们以前写的 onMoveFinished() 吗？以前说 CCCallFuncN 有多么重要，现在就来吧！
+
+    7.02  Source Code
+
+          (1) public void onMoveFinished(Object sender) {
+
+          (2)     CCSprite sprite = (CCSprite) sender;
+          (3)     this.removeChild(sprite, true);
+
+          (4)     if (1 == sprite.getTag()) {
+          (5)         targets.remove(sprite);
+          (6)     } else if (2 == sprite.getTag()) {
+          (7)         bullets.remove(sprite);
+                  }
+
+              }
+
+    7.03  Description
+
+          01. 现在一切都清静了，程序运行也十分的流畅了，但是还好象少点什么是吧？
+          02. 同学们想想还有什么需要的功能呢？
+
+08. Running and Debugging
+
+    8.01  Emulator or Real Phone
+
+          Run As --> Android Application
+
+    8.02  Logcat
+
+    8.03  Refactoring
+
+09. Conclusion

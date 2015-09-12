@@ -1,0 +1,1173 @@
+一、
+	1、前言：
+	目前市面上 飞机大战游戏很多  尤其是雷电游戏  玩家很多，使用很多  玩家需要花钱 买护盾、生命、子弹等，游戏公司挣钱 很多，我们也可以开发自己的飞机大战游戏，挣点零花钱。
+	但是游戏开发 和应用开发不是一个套路，大家需要适应游戏开发的方式。
+	
+	2、开发工具：
+	本次游戏 使用Eclipse作为集成开发工具，使用cocos2d-android引擎来做飞机游戏。
+	
+	3、对coco2d-android引擎有简单认识。
+	
+	4、创建项目
+		(1)、File-New- Android Application Project 
+		(2)、Application Name    飞机大战
+			 Project Name	     PlaneGame
+			 Package Name	     com.mobiletrain.plane
+	
+	5、导包
+		(1)将cocos2d-android.jar 拷贝到libs目录下 并将jar包添加到路径上
+	
+二、游戏设计介绍
+	第一阶段：飞机大战-基本模块
+	
+		1、飞机大战--开始界面
+		2、飞机大战--背景移动
+		3、飞机大战--飞机移动
+		4、飞机大战--飞机子弹
+		5、飞机大战--敌机出现
+		6、飞机大战--子弹打敌机
+		7、飞机大战--成绩记录
+		8、飞机大战--敌机碰撞飞机
+		9、飞机大战--保存(玩家名、成绩)信息
+		
+	第二阶段：飞机大战-游戏控制
+
+		1、飞机大战--多敌机模块
+		2、飞机大战--声音模块
+		3、飞机大战--玩家信息展示
+	
+	
+	三、编写开始界面
+	
+	1、在包下创建 StartActivity类 
+		(1)public class StartActivity extends Activity{
+		
+			onCreate(){
+		(2)		setContentView(R.layout.start);//设置展示内容    需要创建新的布局文件start 在第2步实现
+			}	
+		 }
+	2、编写 start布局文件  
+
+
+	把图片background.png 加入到drawable.dpi文件夹下
+
+		布局很简单 添加一个背景   一个文本展示   三个按钮
+		在res/layout 目录下创建 start.xml文件
+		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:tools="http://schemas.android.com/tools"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" 
+		(1)	android:background="@drawable/background">
+
+		(2)	<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="26sp"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="20dp"
+				android:text="飞机大战"/>
+			
+		(3)	<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:orientation="vertical" >
+
+		(4)		<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+		(5)			android:onClick="onStart"
+					android:text="开始游戏" />
+
+		(6)		<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+		(7)			android:onClick="onCharts"
+					android:text="战绩排行" />
+
+		(8)		<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+		(9)			android:onClick="onSwitch"
+					android:text="音乐开关" />
+			</LinearLayout>
+
+		</RelativeLayout>
+	-----------------测试 展示一下 界面效果------------------
+	
+	3、继续编写StartActivity 在类中添加 按钮监听方法
+	
+		/*开始游戏*/
+	(1)	public void onStart(View view) {
+			
+		}
+		
+		/*排行榜*/
+	(2)	public void onCharts(View view) {
+			
+		}
+
+		/*音乐开关*/
+	(3)	public void onSwitch(View view) {
+			
+		}
+	4、在onStart方法中 执行开启游戏主界面操作
+	(1)	Intent intent=new Intent(StartActivity.this,GameActivity.class);//GameActivity类是游戏主界面 在第四步会创建
+	(2)	startActivity(intent);
+	
+	
+	四、主游戏Activity
+	1、创建主游戏界面 GameActivity.java类
+	
+	public class GameActivity extends Activity{
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		//2、设置Director导演
+		//3、运行Scene场景
+		//4、添加Layer图层
+	}
+
+	2、设置Director导演
+		
+	(1)	CCGLSurfaceView surfaceView=new CCGLSurfaceView(this);//创建画布
+		
+	(2)	setContentView(surfaceView);//设置画布为 显示内容
+		
+	(3)	director = CCDirector.sharedDirector();//创建导演对象
+		
+	(4)	director.attachInView(surfaceView);//导演绑定画布 来控制画布展示操作
+		
+		//就不用考虑实际手机的物理分辨率 具体实现原理 就是放大做到实现的
+	(5)	director.setScreenSize(480,852);//设置游戏屏幕尺寸 这里的宽480 高852 
+			
+	(6)	director.setDisplayFPS(true);//展示刷新帧率
+	
+	
+	--------------------测试 画布界面  看fps刷新频率 在屏幕左下角---------------------------
+	
+	3、创建一个游戏图层GameLayer
+		这是一个主层，用于游戏的精灵的展示
+		
+	(1)public class GameLayer extends CCLayer {//创建一个层  继承自CCLayer
+	
+	(2)	public GameLayer(Context context) {//这里写一个构造方法 音乐需要音乐 预先传入上下文context
+	(3)		super(context);		
+	(4)		this.context = context;
+		}
+	}
+	
+	
+	4、运行Scene场景
+	
+	(1)	CCScene scene=CCScene.node();//创建 场景对象
+		
+	(2)	layer = new GameLayer(this);//创建一个 图层
+		
+		//场景中添加图层 
+	(3)	scene.addChild(layer);//将图层添加到 场景中
+		
+		//运行场景
+	(4)	director.runWithScene(scene);//导演运行场景
+	
+	----------这个时候运行一下 查看效果  还是黑屏 -------------
+	
+	5、给GameLayer图层 添加一个精灵Sprite 查看效果
+	
+		(1) 将图片background.png拷贝到 asset目录下
+		public GameLayer(Context context) {
+			super(context);		
+			this.context = context;
+			CCSprite bg=CCSprite.sprite("background.png");
+			this.addChild(bg);
+		}
+	
+	----------运行效果  查看 添加了背景精灵后的效果---------------------------
+	
+	五、主游戏层GameLayer
+	1、让背景移动 
+	1.1、在构造方法中实现 背景的初始化 与定时器
+		public GameLayer(Context context) {
+			this.context = context;
+		
+	(1)		initBackground();//初始化背景
+	(2)		schedule("moveBackground");//设置 背景移动定时器
+		}
+	
+	1.2、	实现initBackground()方法 
+		private void initBackground() {
+	(1)		background1=CCSprite.sprite("background.png");//创建背景对象
+	(2)		background2=CCSprite.sprite("background.png");
+			
+	(3)		background1.setAnchorPoint(0,0);//锚点在左下角
+	(4)		background2.setAnchorPoint(0,0);
+			
+	(5)		background1.setPosition(0,0);//位置在屏幕上
+	(6)		background2.setPosition(0, background1.getContentSize().height);//在背景1的上边
+			
+	(7)		this.addChild(background1);//将背景添加到图层中
+	(8)		this.addChild(background2);
+	}
+	
+	1.3、实现定时器
+	
+	(1)	public void moveBackground(float delta){
+	(2)		float speedBG=5;//每次移动的距离
+	(3)		background1.setPosition(background1.getPosition().x,background1.getPosition().y-speedBG);//往下移动
+	(4)		background2.setPosition(background2.getPosition().x,background2.getPosition().y-speedBG);//往下移动
+			
+	(5)		if (background2.getPosition().y <= 0) {// 表示背景2已经向下移动到了原点位置了
+				/*初始化 背景位置*/
+	(6)			background1.setPosition(0, 0);
+	(7)			background2.setPosition(0, background1.getContentSize().height);
+			}
+	}
+	
+	---------------运行效果 实现 背景移动效果------------------------
+	
+	2、实现玩家展示
+	玩家 有生命 有积分  这里创建一个新的玩家类Player
+	2.1、创建玩家类Player 继承自CCSprite         
+	(1)	public class Player extends CCSprite{
+	
+	(2)		int lifes;//生命
+	(3)		int scores;//分数
+			
+	(4)		public Player() {
+	(5)			super("player.png");//实现父类构造方法
+			}
+			
+	(6)		public int getLifes() {
+				return lifes;
+			}
+
+	(7)		public void setLifes(int lifes) {
+				this.lifes = lifes;
+			}
+
+	(8)		public int getScores() {
+				return scores;
+			}
+
+	(9)		public void setScores(int scores) {
+				this.scores = scores;
+			}
+			
+		}	
+	2.2、将玩家初始化 添加到GameLayer层中
+		public GameLayer(Context context) {
+		
+			......
+	(1)		initPlayer();
+		}
+	2.3、实现initPlayer()方法
+	(1)	private void initPlayer() {
+			
+	(2)		winSize = CCDirector.sharedDirector().winSize();//获取屏幕尺寸对象  以后经常用到
+			
+	(3)		player = new Player();
+	(4)		player.setAnchorPoint(0.5f, 0);//设置飞机锚点在下边缘中间位置
+	(5)		player.setPosition(winSize.width / 2, 0);//设置飞机位置 在屏幕底部中心位置
+
+	(6)		this.addChild(player);
+		}
+	
+	------------测试  看到玩家--飞机------------------
+	
+	3、子弹
+		子弹要从飞机的 上方位置发送  这里要创建一个子弹类
+		子弹类 要有  杀伤力  速度  等属性   为了后期的扩展性 最好有一个子弹基类。这里写一个Bullet类做完子弹类
+	3.1、创建子弹类
+		public  class Bullet extends CCSprite{
+		 
+	(1)		int attack;//杀伤力
+	(2)		float speed;//速度
+			
+	(3)		public Bullet(String filepath){
+				super(filepath);	
+			}
+
+	(4)		public int getAttack() {
+				return attack;
+			}
+
+	(5)		public void setAttack(int attack) {
+				this.attack = attack;
+			}
+
+	(6)		public float getSpeed() {
+				return speed;
+			}
+
+	(7)		public void setSpeed(float speed) {
+				this.speed = speed;
+			}
+		}
+	4、玩家 发射子弹
+	     玩家的顶端位置 发射子弹  然后子弹按按照移动速度 向上移动 到越界以后 子弹要被销毁
+		
+	4.1、创建子弹集合、发射子弹定时器
+		public GameLayer(Context context) {
+		
+			..................			
+	(1)		playerBullets=new ArrayList<Bullet>();
+			
+	(2)		CCScheduler.sharedScheduler().schedule("tick",this,0.2f,false);//这个定时器 可以设置 定时时间
+		}
+	
+	4.2、写tick定时器执行的方法
+	
+	(1)	public void tick(float delta){
+			
+	(2)		playerShoot();
+		}
+	
+	4.3、编写生成子弹的方法
+	
+		(1)	public void playerShoot(){
+
+		(2)		Bullet bullet=new Bullet("bullet_blue.png");//创建蓝色子弹
+		(3)		float y=player.getPosition().y+player.getContentSize().height;
+		(4)		bullet.setPosition(player.getPosition().x,y);//位置	
+		(5)		bullet.setAttack(5);//攻击值
+		(6)		bullet.setSpeed(winSize.height*0.6f);//设置子弹运行速度
+				
+		(7)		playerBullets.add(bullet);//添加到子弹集合中
+				
+		(8)		this.addChild(bullet);//添加到游戏层中
+				
+				/*子弹执行位移动画*/
+		(9)		CGPoint pos=CGPoint.ccp(bullet.getPosition().x,winSize.height+bullet.getContentSize().width);//目的地
+		(10)	float t=CGPointUtil.distance(bullet.getPosition(),pos)/bullet.getSpeed();//执行时间
+		(11)	CCMoveTo move=CCMoveTo.action(t,pos);
+				
+		(12)	CCCallFunc func=CCCallFuncND.action(this,"removeBullet",bullet);//创建回掉方法对象
+				
+		(13)	CCSequence seq=CCSequence.actions(move,func);//顺序集合动作
+				
+		(14)	bullet.runAction(seq);//运行顺序集合动作
+			
+			}
+	4.4、编写removeBullet方法
+	(1)	public void removeBullet(Object node,Object bullet){
+		
+	(2)		playerBullets.remove(bullet);//从子弹集合中 删去
+			
+	(3)		Bullet temp=(Bullet) bullet;
+			
+	(4)		temp.removeSelf();//销毁
+		}
+	----------------------测试 查看玩家 发射子弹--------------------------
+	
+	5、飞机随着手势移动
+	
+	5.1、设置触屏事件  为了实现 飞机随着手势滑动移动 需要 重写两个触屏方法
+	
+	(1)	public GameLayer(Context context) {	
+	(2)		setIsTouchEnabled(true);//设置 该层可以操作触屏	
+		}
+	5.2、重写开始触屏监听方法
+	
+		@Override
+	(1)	public boolean ccTouchesBegan(MotionEvent event) {//获取手刚刚触屏到屏幕时候的位置
+		
+	(2)		startPoint = convertTouchToNodeSpace(event);//将世界坐标系 转换成 本地坐标系
+	(3)		return super.ccTouchesBegan(event);
+		}
+	5.3、重写触屏移动监听方法
+		@Override
+	(1)	public boolean ccTouchesMoved(MotionEvent event) {
+			
+	(2)		CGPoint pos = convertTouchToNodeSpace(event);
+			
+	(3)		float dx = pos.x-startPoint.x;
+	(4)		float dy = pos.y-startPoint.y;//
+
+	(5)		float x = player.getPosition().x + dx;
+	(6)		float y = player.getPosition().y + dy;
+
+			/*简单判断一下 飞机有没有超出屏幕外边去  */
+	(7)		if (x < 0) {
+	(8)			x = 0;
+	(9)		} else if (x > winSize.width) {
+	(10)		x = winSize.width;
+			}
+
+	(11)	if (y < 0) {
+	(12)		y = 0;
+	(13)	} else if (y > winSize.height - player.getContentSize().height) {
+	(14)		y = winSize.height - player.getContentSize().height;
+			}
+
+	(15)	player.setPosition(x, y);
+
+	(16)	startPoint=pos;
+			
+	(17)	return super.ccTouchesMoved(event);
+		}
+	---------------测试  玩家随着 手势移动------------------------
+	
+	6、敌机模块
+	
+		敌机有不同，有生命值、移动速度、分数等属性 写一个敌机类 然后随机出现
+	6.1、创建敌机类
+	
+	(1)	public  class Enemy extends CCSprite{
+
+	(2)		int life;
+	(3)		int speed;
+	(4)		int score;
+			
+	(5)		public Enemy(String filepath) {
+	(6)			super(filepath);
+			}
+			
+	(7)		public int getLife() {
+				return life;
+			}
+
+	(8)		public void setLife(int life) {
+				this.life = life;
+			}
+
+	(9)		public int getSpeed() {
+				return speed;
+			}
+
+	(10)	public void setSpeed(int speed) {
+				this.speed = speed;
+			}
+
+	(11)	public int getScore() {
+				return score;
+			}
+
+	(12)	public void setScore(int score) {
+				this.score = score;
+			}
+		}
+	6.2、创建 敌机集合 、敌机定时器
+		
+	(1)	public GameLayer(Context context) {
+	(2)		enemies=new ArrayList<Enemy>();//创建 敌机对象集合
+	(3)		CCScheduler.sharedScheduler().schedule("makeEnemies",this,0.2f,false);//敌机生成定时器
+		}
+	6.3、实现makeEnemies()方法
+	(1)	public void makeEnemies(float delta){
+		
+	(2)		Enemy enemy=new Enemy("enemy01_1.png");//创建敌机
+	(3)		enemy.setAnchorPoint(0,0);
+	(4)		enemy.setLife(20);
+	(5)		enemy.setScore(50);
+	(6)		enemy.setSpeed(winSize.height*0.2f);
+			
+			
+			/*设置的出现的位置*/
+	(7)		float x=(float) (Math.random()*(winSize.width-enemy.getContentSize().width));//随机x轴坐标
+	(8)		float y=winSize.height+(float)Math.random()*enemy.getContentSize().height;//随机y轴坐标
+	(9)		enemy.setPosition(x, y);
+			
+	(10)	enemies.add(enemy);//添加到敌机集合
+			
+	(11)	this.addChild(enemy);//添加到图层
+			
+			//执行动画
+	(12)	CGPoint pos=CGPoint.ccp(enemy.getPosition().x,0);//目的地
+	(13)	float t=CGPointUtil.distance(enemy.getPosition(),pos)/enemy.getSpeed();//执行时间
+	(14)	CCMoveTo move=CCMoveTo.action(t,pos);
+			
+	(15)	CCCallFunc func=CCCallFuncND.action(this,"removEenemy",enemy);
+			
+	(16)	CCSequence seq=CCSequence.actions(move,func);
+			
+	(17)	enemy.runAction(seq);
+		
+		}
+	
+	7、敌机与飞机碰撞  子弹与敌机碰撞
+	7.1、编写检测碰撞的定时器
+	(1)	public GameLayer(Context context) {
+			....................	
+	(2)		schedule("checkCollision");
+		}
+	7.2、实现 checkCollision方法
+	(1)	public void checkCollision(float delta){
+			
+			/*检查 敌机有没有与飞机碰撞*/
+			
+	(2)		for (Enemy enemy : enemies) {
+				
+	(3)			if (CGRect.intersects(enemy.getBoundingBox(),
+						player.getBoundingBox())) {// 表示 敌机与玩家碰撞
+					
+	(4)				playerBomb();//玩家爆炸  这里在下边实现该方法
+				}else {
+					/*没有相撞 看一下 子弹有没有打中 敌机*/
+	(5)				for (Bullet bullet : playerBullets) {
+	(6)					if (CGRect.intersects(bullet.getBoundingBox(),
+								enemy.getBoundingBox())) {// 表示 子弹打中了敌机
+	(7)						int sub=enemy.getLife()-bullet.getAttack();
+	(8)						if(sub<=0){
+	(9)							enemyBomb(enemy);//敌机爆炸  这里从下边实现该方法
+							}else{
+	(10)						enemy.setLife(sub);//敌机生命值减少
+							}			
+							//从集合中 删除子弹对象
+	(11)					removeBullet(null, bullet);
+						}
+					}
+				}
+			}
+			
+		}
+	7.3、实现玩家爆炸方法
+	
+	(1)	public void playerBomb() {
+			/*玩家爆炸帧动画*/
+	(2)		ArrayList<CCSpriteFrame> frames = new ArrayList<CCSpriteFrame>();
+	(3)		for (int i = 1; i < 6; i++) {
+				CCSpriteFrame frame = CCSprite.sprite("player_" + i + ".png")
+						.displayedFrame();
+	(4)			frames.add(frame);
+			}
+	(5)		CCAnimation animation = CCAnimation.animation("planebomb", frames);
+	(6)		CCAnimate animate = CCAnimate.action(1f, animation, false);
+	(7)		CCSequence seq = CCSequence.actions(animate,
+					CCCallFunc.action(this, "destoryPlayer"));
+	(8)		player.runAction(seq);
+		}
+	
+	7.4、实现 玩家爆炸帧动画后执行的 回调方法destoryPlayer()	
+	(1)	public void destoryPlayer(){
+	(2)		player.removeSelf();//从layer中移除
+		}
+	
+	7.5、实现敌机爆炸方法 	
+	(1)	public void enemyBomb(Enemy enemy) {
+			/*敌机爆炸帧动画*/
+	(2)		ArrayList<CCSpriteFrame> frames = new ArrayList<CCSpriteFrame>();
+	(3)		for (int i = 1; i < 6; i++) {
+	(4)			CCSpriteFrame frame = CCSprite.sprite("enemy01_" + i + ".png")
+						.displayedFrame();
+	(5)			frames.add(frame);
+			}
+	(6)		CCAnimation animation = CCAnimation.animation("eabomb", frames);
+	(7)		CCAnimate animate = CCAnimate.action(1f, animation, false);
+	(8)		CCSequence seq = CCSequence.actions(animate,
+					CCCallFuncND.action(this,"removEenemy",enemy));
+	(9)		enemy.runAction(seq);
+		}
+	--------------------测试 玩家子弹打飞机  玩家与敌机碰撞的效果--------------------------
+	
+	8、进行游戏控制
+	在上边的测试中 会发现  玩家虽然不在显示 还是在继续发子弹  这个时候我们需要 做游戏控制 
+	游戏为 运行状态、结束状态 暂停状态
+	
+	8.1、创建三种状态的 静态值
+	(1)	public static final int GAME_RUN = 1;
+	(2)	public static final int GAME_PAUSE = 2;
+	(3)	public static final int GAME_OVER = 3;
+	
+	(4)	private int status = GAME_RUN;//运行态
+	
+	8.2、在三个定时器 中都加入游戏状态判断 只有是运行态的时候 才进行代码执行
+	
+	(1)	public void shoot(float delta){
+	(2)		if(status==GAME_RUN){
+				playerShoot();
+			}
+		}
+		
+	(3)	public void makeEnemies(float delta) {
+
+	(4)		if (status == GAME_RUN) {
+				............
+			}
+		}
+		
+	(5)	public void checkCollision(float delta) {
+
+	(6)		if (status == GAME_RUN) {
+				................
+				
+				if (CGRect.intersects(enemy.getBoundingBox(),
+						player.getBoundingBox())) {// 表示 敌机与玩家碰撞
+
+					playerBomb();// 玩家爆炸
+					
+	(7)				status=GAME_OVER;
+	(8)				stopScheduler();//停止定时器
+
+				}	
+				.......................
+			}
+		}
+	8.3、实现stopScheduler()方法
+	
+	(1)	private void stopScheduler() {
+	(2)		unschedule("moveBackground");
+	(3)		unschedule("shoot");
+	(4)		unschedule("makeEnemies");
+	(5)		unschedule("checkCollision");
+		}
+	
+	
+	9、记分模块
+	9.1、在GameLayer构造方法中 创建记分初始化方法
+		public GameLayer(Context context) {
+			...............
+			initLabelScore();
+		}
+	9.2、实现方法initLabelScore()
+	
+	(1)	private void initLabelScore() {
+
+	(2)		CCLabelAtlas labelScore = CCLabelAtlas.label("0","myfont.png", 30, 50,'0');//使用图片字体样式 来做为字体显示样式
+
+	(3)		labelScore.setPosition(winSize.width / 5, winSize.height - 80);
+
+	(4)		this.addChild(labelScore);
+		}
+	
+	9.3、时时更新分数
+		在碰撞检测定时器中实现
+		if (CGRect.intersects(bullet.getBoundingBox(),
+			enemy.getBoundingBox())) {// 表示 子弹打中了敌机
+			int sub = enemy.getLife() - bullet.getAttack();
+			if (sub <= 0) {
+				enemyBomb(enemy);// 敌机爆炸
+								
+	(1)			player.setScores(player.getScores()+enemy.getScore());//将分数记录到玩家上								
+	(2)			labelScore.setString(player.getScores()+"");//更新玩家分数信息
+			}					
+		}	
+		
+	----------------------测试  测试游戏更新分数-------------------
+	
+		
+	10、游戏结束 要保存玩家信息到数据库 数据库操作
+	10.1、创建数据库、数据表
+	
+	(1)	public class DataBaseOpenHelper extends SQLiteOpenHelper{
+
+	(2)		public static final String TABLE_PLAYER="player";
+			
+	(3)		public static final String TABLE_ID="_id";
+			
+	(4)		public static final String TABLE_NAME="name";
+			
+	(5)		public static final String TABLE_SCORE="score";
+			
+	(6)		public DataBaseOpenHelper(Context context) {
+	(7)			super(context,"plane.db",null,1);
+			}
+
+			@Override
+	(8)		public void onCreate(SQLiteDatabase db) {
+				//创建 带有 id name  score 三个字段的表
+	(9)			db.execSQL("create table player(_id integer primary key autoincrement,name text not null,score integer not null)");		
+			}
+			@Override
+	(10)	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {			
+			}
+		}
+		
+	10.2、编写玩家类PlayerBean.java
+	(1)	public class PlayerBean {//创建玩家类的字段 id、姓名、分数
+	(2)		private int id;		
+	(3)		private String name;		
+	(4)		private int score;
+	(5)		public int getId() {
+				return id;
+			}
+	(6)		public void setId(int id) {
+				this.id = id;
+			}
+	(7)		public String getName() {
+				return name;
+			}
+	(8)		public void setName(String name) {
+				this.name = name;
+			}
+	(9)		public int getScore() {
+				return score;
+			}
+	(10)	public void setScore(int score) {
+				this.score = score;
+			}
+		}
+	10.3、操作数据库的类
+		
+		1、数据库的插入、更新操作
+	(1)	public class PlayerDao {
+	(2)		private DataBaseOpenHelper hepler = null;
+
+	(3)		public PlayerDao(Context context) {
+	(4)			hepler = new DataBaseOpenHelper(context);
+			}
+
+	(5)		public void add(PlayerBean player) {
+
+	(6)			if(isExitName(player.getName())){//存在的话 就修改  不存在 则插入
+	(7)				update(player);
+				}else{
+	(8)				insert(player);
+				}
+			}
+	(9)		public void update(PlayerBean player){
+				
+	(10)		SQLiteDatabase db = hepler.getWritableDatabase();
+				
+	(11)		ContentValues values = new ContentValues();
+				
+	(12)		values.put(DataBaseOpenHelper.TABLE_SCORE,player.getScore());
+				
+	(13)		db.update(DataBaseOpenHelper.TABLE_PLAYER, values,"name=?",new String[]{player.getName()});
+				
+			}
+			
+	(14)	public void insert(PlayerBean player) {
+				
+	(15)		SQLiteDatabase db = hepler.getWritableDatabase();
+
+	(16)		ContentValues values = new ContentValues();
+
+	(17)		values.put(DataBaseOpenHelper.TABLE_NAME, player.getName());
+
+	(18)		values.put(DataBaseOpenHelper.TABLE_SCORE, player.getScore());
+
+	(19)		db.insert(DataBaseOpenHelper.TABLE_PLAYER, null, values);
+
+	(20)		db.close();				
+			}
+
+	(21)	public boolean isExitName(String name) {
+	(22)		SQLiteDatabase db = hepler.getWritableDatabase();
+
+	(23)		Cursor c = db.query(DataBaseOpenHelper.TABLE_PLAYER, null, "name=?",
+						new String[] { name }, null, null, null);
+
+	(24)		if (c == null || !c.moveToNext()) {
+					return false;
+				}
+	(25)		c.close();
+	(26)		db.close();
+	(27)		return true;
+			}
+	2、数据库的 查询所有操作
+	(1)		public List<PlayerBean> findAll() {
+
+	(2)			List<PlayerBean> list = new ArrayList<PlayerBean>();
+
+	(3)			SQLiteDatabase db = hepler.getWritableDatabase();
+	(4)			Cursor c = db.query(DataBaseOpenHelper.TABLE_PLAYER, null, null, null,
+						null, null, "score desc");
+
+	(5)		if (c == null) {
+					return null;
+				}
+	(6)			while (c.moveToNext()) {
+	(7)				int id = c.getInt(0);
+	(8)				String name = c.getString(1);
+	(9)				int score = c.getInt(2);
+
+	(10)			PlayerBean bean = new PlayerBean();
+	(11)			bean.setId(id);
+	(12)			bean.setName(name);
+	(13)			bean.setScore(score);
+	(14)			list.add(bean);
+				}
+	(15)		c.close();
+	(16)		db.close();
+	(17)		return list;
+			}
+		}
+	----------------测试 自己实验数据库的可用性--------------------
+	
+	11、保存玩家信息到数据库
+		 在GameActivity上 展示出来Dialog对话框
+	11.1、	在onCreate方法中 创建Handler对象  和 PlayerDao对象
+		protected void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+			................
+	(1)		handler();
+			
+	(2)		dao = new PlayerDao(this);
+		
+		}
+	11.2、实现方法handler()
+	(1)	private void handler() {
+	(2)		handler = new Handler(){
+				@Override
+				public void handleMessage(final Message msg) {
+					super.handleMessage(msg);
+						//胜利了			
+						View view=null;
+						
+	(3)					AlertDialog.Builder builder=new AlertDialog.Builder(GameActivity.this);
+						
+	(4)					builder.setTitle("游戏提示");
+						
+	(5)					view=LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_item,null);
+						
+	(6)					final EditText et_name=(EditText) view.findViewById(R.id.et_name_item);
+						
+	(7)					builder.setView(view);
+						
+	(8)					builder.setPositiveButton("保存",new OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+									
+						}
+					});
+					
+	(9)			builder.show();
+					}
+			};
+	}
+	
+	11.3、改造GameLayer构造方法 传入 Handler对象
+		public GameLayer(Context context,Handler handler) {
+
+			this.handler=handler;
+		}
+	11.4、通过handler对象 传递 游戏结束的数据
+		if (CGRect.intersects(enemy.getBoundingBox(),player.getBoundingBox())) {// 表示 敌机与玩家碰撞
+	
+				.....................
+					
+	(1)				handler.sendEmptyMessage(player.getScores());//发送分数到GameActivity界面
+
+		}
+	
+	11.5、保存对话框的操作
+	
+		public void onClick(DialogInterface dialog, int which) {
+		
+			//保存数到数据库
+	(1)		PlayerBean player=new PlayerBean();							
+	(2)		String name=et_name.getText().toString().trim();						
+	(3)		if(TextUtils.isEmpty(name)){
+	(4)			name="匿名";
+			}						
+	(5)		player.setName(name);
+	(6)		player.setScore(msg.arg1);
+	(7)		dao.add(player);
+								
+	(8)		dialog.cancel();
+								
+	(9)		finish();
+										
+		}
+	
+	六、战绩排行榜
+		点击StartActivity界面上的 战绩排行按钮
+	1、成绩排行榜
+		/*排行榜*/
+		public void onCharts(View view) {
+				
+	(1)		PlayerListDialog dialog=new PlayerListDialog(this);//排行榜对话框
+			
+	(2)		dialog.show();
+		}
+	2、实现PlayerListDialog对话框
+	2.1、编写 对话框布局文件 player_list.xml
+		<?xml version="1.0" encoding="utf-8"?>
+	(1)	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#FFFFFF"
+			android:padding="5dp"
+			android:orientation="vertical" >
+			
+	(2)		<TextView 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="12dp"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:gravity="center"
+				android:text="玩家排行榜"/>
+			
+	(3)		<LinearLayout 
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				
+	(4)			<TextView 
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="18sp"
+					android:text="姓名"/>
+				
+	(5)			<TextView 
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:textSize="18sp"
+					android:text="得分"/>
+			</LinearLayout>
+			
+	(6)		<ListView 
+				android:id="@+id/listView_playerList"
+				android:layout_width="320dp"
+				android:layout_height="300dp"/>
+			
+	(7)		<Button 
+				android:id="@+id/btn_cancel_playerList"
+				android:layout_width="150dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:textSize="16sp"
+				android:layout_gravity="center_horizontal"
+				android:text="取消"/>
+			
+		</LinearLayout>
+	
+	2.2、创建对话框类 PlayerListDialog.java类
+		
+	(1)	public class PlayerListDialog extends Dialog{
+	
+			private Context context;
+			private ListView listView;
+			private Button button;
+		
+	(2)		public PlayerListDialog(Context context) {
+				super(context);
+				this.context=context;
+				
+	(3)			requestWindowFeature(Window.FEATURE_NO_TITLE);
+				
+	(4)			setCancelable(false);
+			}
+		
+			@Override
+			protected void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+				
+				
+	(5)			View view=LayoutInflater.from(context).inflate(R.layout.player_list, null);
+	(6)			LayoutParams params=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+				
+	(7)			setContentView(view, params);
+				
+	(8)			PlayerDao dao = new PlayerDao(context);
+				
+	(9)			List<PlayerBean> list=dao.findAll();
+				
+	(10)		PlayerAdpater adpater=new PlayerAdpater(context,list);
+				
+				
+	(11)		listView = (ListView) findViewById(R.id.listView_playerList);
+				
+	(12)		button = (Button) findViewById(R.id.btn_cancel_playerList);
+				
+	(13)		listView.setAdapter(adpater);
+				
+				
+	(14)		button.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						
+	(15)				PlayerListDialog.this.cancel();
+						
+					}
+				});
+			}
+		}
+	--------------测试  点击玩家排行榜 查看玩家记录-------------------------------------
+	
+	
+	七、声音功能
+	1、StartActivity上的音乐开关设置
+	
+	1.1、声音设置SharedPreferences文件	
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.start);
+			
+			sp = getSharedPreferences("game.xml",Context.MODE_PRIVATE);//这里起名字game.xml
+			
+		}
+	
+	1.2、音乐开关按钮 点击实现	
+		/*音乐开关*/
+		public void onSwitch(View view) {
+			
+	(1)		AlertDialog.Builder builder=new AlertDialog.Builder(this);
+	(2)		builder.setTitle("音乐提醒");
+			
+	(3)		String[] items={"游戏音效","背景音乐"};
+	(4)		boolean[] checkedItems={sp.getBoolean("effectMusic",false),sp.getBoolean("bgMusic",false)};
+			
+	(5)		builder.setMultiChoiceItems(items, checkedItems,new OnMultiChoiceClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+	(6)				switch(which){
+	(7)				case 0:
+						
+	(8)					sp.edit().putBoolean("effectMusic",isChecked).commit();
+						
+						break;
+	(9)				case 1:
+						
+	(10)				sp.edit().putBoolean("bgMusic",isChecked).commit();
+						
+						break;
+					}
+				}
+			});
+			
+	(11)	builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+	(12)			dialog.cancel();
+				}
+			});
+			
+	(13)	builder.setCancelable(false);//对话框不可被其他方式取消
+			
+	(14)	builder.show();//显示
+			
+		}
+	1.3、GameLayer中获取音乐情况
+		
+		public GameLayer(Context context,Handler handler){
+	
+			.....................
+			
+	(1)		SharedPreferences sp=context.getSharedPreferences("game.xml",Context.MODE_PRIVATE);		
+	(2)		effectMusic = sp.getBoolean("effectMusic",false);
+	(3)		bgMusic = sp.getBoolean("bgMusic",false);
+	
+		} 
+	1.4 、编写音乐方法
+	
+	(1)	public void playEffect(int resId){//播放音效 如 子弹声音
+	(2)		if(effectMusic){
+	(3)			SoundEngine.sharedEngine().playEffect(context,resId);
+			}
+		}
+	
+	(1)	public void playSound(int resId){//播放音乐 如 背景音乐
+	(2)		if(bgMusic){
+	(3)			SoundEngine.sharedEngine().playSound(context,resId,true);
+			}
+		}
+	1.5、在给子弹发射、玩家爆炸、敌机爆炸 添加音效
+		
+		public void playerShoot() {
+			..................
+	(1)		playEffect(R.raw.bullet);//播放音乐
+
+		}
+	
+		public void checkCollision(float delta) {
+
+				if (CGRect.intersects(enemy.getBoundingBox(),
+						player.getBoundingBox())) {// 表示 敌机与玩家碰撞
+					
+					.........................
+	(2)				playEffect(R.raw.game_over);//播放游戏结束音乐
+
+				} else {
+					/* 没有相撞 看一下 子弹有没有打中 敌机 */
+					for (Bullet bullet : playerBullets) {
+						if (CGRect.intersects(bullet.getBoundingBox(),
+								enemy.getBoundingBox())) {// 表示 子弹打中了敌机
+							int sub = enemy.getLife() - bullet.getAttack();
+							if (sub <= 0) {
+								
+								..............................
+	(3)							playEffect(R.raw.enemy3_down);//播放 敌机销毁音乐
+								
+							} 
+
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
+		public GameLayer(Context context,Handler handler) {
+		
+			............
+			//背景音乐
+	(4)		playSound(R.raw.game_music);
+		}
+	
+	八、升级敌人，让敌人多样化
+	1、创建敌机多样化
+		public void makeEnemies(float delta) {
+		
+			.................
+			Enemy enemy = null;
+
+			double random = Math.random();//随机值
+			if (random <= 0.2) {
+				enemy = new Enemy("enemy03_1.png");// 创建敌机
+				enemy.setAnchorPoint(0, 0);
+				enemy.setTag(3);//敌机标志
+				enemy.setLife(50);
+				enemy.setScore(150);
+				enemy.setSpeed(winSize.height * 0.1f);
+			} else if (random <= 0.5) {
+				enemy = new Enemy("enemy02_1.png");// 创建敌机
+				enemy.setAnchorPoint(0, 0);
+				enemy.setTag(2);
+				enemy.setLife(30);
+				enemy.setScore(100);
+				enemy.setSpeed(winSize.height * 0.2f);
+			} else {
+				enemy = new Enemy("enemy01_1.png");// 创建敌机
+				enemy.setAnchorPoint(0, 0);
+				enemy.setTag(1);
+				enemy.setLife(20);
+				enemy.setScore(50);
+				enemy.setSpeed(winSize.height * 0.3f);
+			}
+		}
+	2、销毁敌机--根据不同敌机 展示爆炸帧动画
+		public void enemyBomb(Enemy enemy) {
+
+	(1)		ArrayList<CCSpriteFrame> frames = new ArrayList<CCSpriteFrame>();
+
+	(2)		if (enemy.getTag() == 1) {
+				for (int i = 1; i < 6; i++) {
+					CCSpriteFrame frame = CCSprite.sprite("enemy01_" + i + ".png")
+							.displayedFrame();
+					frames.add(frame);
+				}
+	(3)		} else if (enemy.getTag() == 2) {
+				for (int i = 1; i < 7; i++) {
+					CCSpriteFrame frame = CCSprite.sprite("enemy02_" + i + ".png")
+							.displayedFrame();
+					frames.add(frame);
+				}
+	(4)		} else if (enemy.getTag() == 3) {
+				for (int i = 1; i < 10; i++) {
+					CCSpriteFrame frame = CCSprite.sprite("enemy03_" + i + ".png")
+							.displayedFrame();
+					frames.add(frame);
+				}
+			}
+
+			CCAnimation animation = CCAnimation.animation("eabomb", frames);
+			CCAnimate animate = CCAnimate.action(1f, animation, false);
+			CCSequence seq = CCSequence.actions(animate,
+					CCCallFuncND.action(this, "removEenemy", enemy));
+			enemy.runAction(seq);
+		}

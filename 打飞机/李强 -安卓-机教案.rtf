@@ -1,0 +1,1065 @@
+{\rtf1\ansi\ansicpg936\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fnil\fcharset134 STHeitiSC-Light;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Monaco;
+}
+{\colortbl;\red255\green255\blue255;\red127\green0\blue85;\red0\green0\blue192;\red0\green128\blue128;
+\red63\green127\blue127;\red127\green0\blue127;\red42\green0\blue255;\red63\green127\blue95;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14120\viewh11720\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 \'b7\'c9\'bb\'fa\'b4\'f3\'d5\'bd\'bd\'cc\'b0\'b8
+\f1 \
+\
+\
+
+\f0 \'b5\'bc\'c8\'eb
+\f1 cocos2d 
+\f0 \'b5\'c4\'b0\'fc\
+\
+\'b5\'bc\'c8\'eb\'cd\'bc\'c6\'ac\'cb\'d8\'b2\'c4\
+\
+
+\f1 \
+\
+\
+
+\f0\fs40 \'d4\'da
+\f1 MainActivity
+\f0 \'d6\'d0
+\f1 \
+
+\fs24 \
+\pard\pardeftab720
+
+\f2\fs22 \cf2 public\cf0  \cf2 class\cf0  MainActivity \cf2 extends\cf0  Activity \{\
+\
+\
+\
+		setContentView(R.layout.\cf3 start\cf0 );\
+\
+\}\
+\
+\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \'b4\'b4\'bd\'a8
+\f2 start.xml \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\
+\pard\pardeftab720
+\cf4 <?\cf5 xml\cf0  \cf6 version\cf0 =\cf7 "1.0"\cf0  \cf6 encoding\cf0 =\cf7 "utf-8"\cf4 ?>\cf0 \
+\cf4 <\cf5 LinearLayout\cf0  \cf6 xmlns:android\cf0 =\cf7 "http://schemas.android.com/apk/res/android"\cf0 \
+    \cf6 android:layout_width\cf0 =\cf7 "match_parent"\cf0 \
+    \cf6 android:layout_height\cf0 =\cf7 "match_parent"\cf0 \
+    \cf6 android:orientation\cf0 =\cf7 "vertical"\cf0 \
+    \cf6 android:background\cf0 =\cf7 "@drawable/background"\cf0 \
+    \cf4 >\cf0 \
+\
+   \cf4 <\cf5 TextView\cf0 \
+				\cf6 android:layout_width\cf0 =\cf7 "wrap_content"\cf0 \
+				\cf6 android:layout_height\cf0 =\cf7 "wrap_content"\cf0 \
+				\cf6 android:textSize\cf0 =\cf7 "26sp"\cf0 \
+				\cf6 android:layout_gravity\cf0 =\cf7 "center_horizontal"\cf0 \
+				\cf6 android:layout_marginTop\cf0 =\cf7 "20dp"\cf0 \
+\cf7 				\cf6 \ul \ulc6 android:text\cf0 \ulc0 =\cf7 \ulc7 "
+\f0 \'b7\'c9\'bb\'fa\'b4\'f3\'d5\'bd
+\f2 "\cf4 \ulnone />\cf0 \
+\
+    \cf4 <\cf5 LinearLayout\cf0 \
+        \cf6 android:layout_width\cf0 =\cf7 "wrap_content"\cf0 \
+        \cf6 android:layout_height\cf0 =\cf7 "wrap_content"\cf0 \
+        \cf6 android:layout_marginTop\cf0 =\cf7 "120dp"\cf0 \
+        \cf6 android:layout_gravity\cf0 =\cf7 "center_horizontal"\cf0 \
+        \cf6 android:orientation\cf0 =\cf7 "vertical"\cf0  \cf4 >\cf0 \
+\
+        \cf4 <\cf5 Button\cf0 \
+            \cf6 android:layout_width\cf0 =\cf7 "wrap_content"\cf0 \
+            \cf6 android:layout_height\cf0 =\cf7 "wrap_content"\cf0 \
+            \cf6 android:onClick\cf0 =\cf7 "onStart"\cf0 \
+\cf7          \cf0    \cf6 \ul \ulc6 android:text\cf0 \ulc0 =\cf7 \ulc7 "
+\f0 \'bf\'aa\'ca\'bc\'d3\'ce\'cf\'b7
+\f2 "\cf0 \ulnone  \cf4 />\cf0 \
+\
+        \cf4 <\cf5 Button\cf0 \
+            \cf6 android:layout_width\cf0 =\cf7 "wrap_content"\cf0 \
+            \cf6 android:layout_height\cf0 =\cf7 "wrap_content"\cf0 \
+            \cf6 android:layout_marginBottom\cf0 =\cf7 "10dp"\cf0 \
+            \cf6 android:layout_marginTop\cf0 =\cf7 "10dp"\cf0 \
+            \cf6 android:onClick\cf0 =\cf7 "onCharts"\cf0 \
+\cf7           \cf0   \cf6 \ul \ulc6 android:text\cf0 \ulc0 =\cf7 \ulc7 "
+\f0 \'d5\'bd\'bc\'a8\'c5\'c5\'d0\'d0
+\f2 "\cf0 \ulnone  \cf4 />\cf0 \
+\
+        \cf4 <\cf5 Button\cf0 \
+            \cf6 android:layout_width\cf0 =\cf7 "wrap_content"\cf0 \
+            \cf6 android:layout_height\cf0 =\cf7 "wrap_content"\cf0 \
+            \cf6 android:onClick\cf0 =\cf7 "onSwitch"\cf0 \
+\cf7           \cf0   \cf6 \ul \ulc6 android:text\cf0 \ulc0 =\cf7 \ulc7 "
+\f0 \'d2\'f4\'c0\'d6\'bf\'aa\'b9\'d8
+\f2 "\cf0 \ulnone  \cf4 />\cf0 \
+    \cf4 </\cf5 LinearLayout\cf4 >\cf0 \
+\
+\cf4 </\cf5 LinearLayout\cf4 >\cf0 \
+\
+\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\f0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\fs40 \cf0 \'d4\'da
+\f1 MainActivity
+\f0 \'d6\'d0\'a3\'ac
+\fs38 \'b9\'d8\'c1\'aa\'ba\'af\'ca\'fd\
+
+\f1\fs40 \
+\pard\pardeftab720
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab720
+\cf8 /*
+\f0 \'bf\'aa\'ca\'bc\'d3\'ce\'cf\'b7
+\f2 */\cf0 \
+	\cf2 public\cf0  \cf2 void\cf0  onStart(View view) \{\
+\
+		\
+		\
+		System.\cf3 out\cf0 .println(\cf7 "1111111111111"\cf0 );\
+\
+	\}\
+	\
+	\cf8 /*
+\f0 \'c5\'c5\'d0\'d0\'b0\'f1
+\f2 */\cf0 \
+	\cf2 public\cf0  \cf2 void\cf0  onCharts(View view) \{\
+		\
+	\}\
+\
+	\cf8 /*
+\f0 \'d2\'f4\'c0\'d6\'bf\'aa\'b9\'d8
+\f2 */\cf0 \
+	\cf2 public\cf0  \cf2 void\cf0  onSwitch(View view) \{\
+		\
+	\}\
+\
+\
+\pard\pardeftab720
+
+\fs34 \cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0\'cf\'c2\'a3\'ac\'b3\'f6\'cf\'d6\'bf\'aa\'ca\'bc\'b2\'cb\'b5\'a5\'a3\'ac\'b5\'e3\'bb\'f7\'b4\'f2\'d3\'a1
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\
+\
+\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\fs34 \cf0 	
+\f0 \'d4\'da
+\f2  \cf2 public\cf0  \cf2 void\cf0  onStart(View view) 
+\f0 \'d6\'d0\'a3\'ac\'cc\'ed\'bc\'d3\'cc\'f8\'d7\'aa
+\f2 \
+
+\f0 	\'ca\'d7\'cf\'c8\'b4\'b4\'bd\'a8
+\f2 GameLayer
+\f0 \
+\
+\pard\pardeftab720
+
+\f2\fs22 \cf2 	public\cf0  \cf2 class\cf0  GameLayer \cf2 extends\cf0  CCLayer\{\
+		System.\cf3 out\cf0 .println(\cf7 \'9322222222222\'94\cf0 );\
+\
+	\}\
+\
+\
+\pard\pardeftab720
+
+\fs38 \cf0 	MainActivity
+\f0 \'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\pard\pardeftab720
+\cf2 	public\cf0  \cf2 void\cf0  onStart(View view) \{\
+\cf8 	//			Intent intent=new Intent(MainActivity.this,GameActivity.class);//GameActivity
+\f0 \'c0\'e0\'ca\'c7\'d3\'ce\'cf\'b7	\'d6\'f7\'bd\'e7\'c3\'e6
+\f2  
+\f0 \'d4\'da\'b5\'da\'cb\'c4\'b2\'bd\'bb\'e1\'b4\'b4\'bd\'a8
+\f2 \cf0 \
+\cf8 	//			startActivity(intent);\cf0 \
+		\
+		view = \cf2 new\cf0  CCGLSurfaceView(\cf2 this\cf0 );\
+				\
+		setContentView(view);\
+		\cf8 //
+\f0 \'b5\'c3\'b5\'bd\'d2\'bb\'b8\'f6\'b5\'bc\'d1\'dd\'a3\'ac
+\f2 shared
+\f0 \'cb\'b5\'c3\'f7\'d6\'bb\'c4\'dc\'d3\'d0\'d2\'bb\'b8\'f6\'b5\'bc\'d1\'dd\
+\pard\pardeftab720
+
+\f2 \cf0 \
+		CCDirector director = CCDirector.sharedDirector();		\
+		\cf8 //
+\f0 \'c9\'e8\'d6\'c3\'b5\'b1\'c7\'b0\'d3\'a6\'d3\'c3\'b3\'cc\'d0\'f2\'cb\'f9\'ca\'b9\'d3\'c3\'b5\'c4
+\f2 view
+\f0 \'b6\'d4\'cf\'f3\
+
+\f2 \cf0 \
+		director.attachInView(view);		\
+		\cf8 //
+\f0 \'c9\'e8\'d6\'c3
+\f2 \ul \ulc8 fps\
+\pard\pardeftab720
+\cf0 \ulnone \
+		director.setDisplayFPS(\cf2 true\cf0 );\
+		
+\f0 \
+
+\f2 \
+		director.setAnimationInterval(1/60);\
+		\
+		CCScene scene = CCScene.node();\
+		\
+		\
+		GameLayer gamelayer = \cf2 new\cf0  GameLayer(\cf2 null\cf0 );\
+		\
+		scene.addChild(gamelayer);\
+		\
+		director.runWithScene(scene);\
+	\}\
+\pard\pardeftab720
+
+\fs34 \cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0\'cf\'c2\'a3\'ac\'b3\'f6\'cf\'d6\'bf\'aa\'ca\'bc\'b2\'cb\'b5\'a5\'a3\'ac\'b5\'e3\'bb\'f7\'cc\'f8\'d7\'aa
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+\
+\
+
+\f0 \'b4\'b4\'bd\'a8\'b1\'b3\'be\'b0\'ba\'cd\'b9\'f6\'b6\'af\
+\
+
+\fs48 \'d4\'daGameLayer\'d6\'d0\'c9\'f9\'c3\'f7\
+\
+\pard\pardeftab720
+
+\f2\fs22 \cf0 	CCSprite \cf3 background1\cf0 =CCSprite.sprite(\cf7 "background.png"\cf0 );\cf8 //
+\f0 \'b4\'b4\'bd\'a8\'b1\'b3\'be\'b0\'b6\'d4\'cf\'f3
+\f2 \cf0 \
+	CCSprite \cf3 background2\cf0 =CCSprite.sprite(\cf7 "background.png"\cf0 );\
+		
+\fs34 \
+
+\fs22 	\cf2 private\cf0  CGSize \cf3 winSize\cf0 ;\
+\pard\pardeftab720
+
+\fs34 \cf0 \
+\
+\pard\pardeftab720
+
+\f0\fs28 \cf0 //\'b9\'b9\'d4\'ec\'b7\'bd\'b7\'a8\'d6\'d0
+\f2\fs34 \
+\pard\pardeftab720
+
+\fs22 \cf2 public\cf0  GameLayer(Context context) \{\
+\
+		\cf2 super\cf0 ();		\
+		\
+		\cf2 this\cf0 .\cf3 context\cf0  = context;\
+		CCSprite bg=CCSprite.sprite(\cf7 "background.png"\cf0 );\
+		\cf2 this\cf0 .addChild(bg);\
+		\
+		\
+		\
+		initBackground();\cf8 //
+\f0 \'b3\'f5\'ca\'bc\'bb\'af\'b1\'b3\'be\'b0
+\f2 \cf0 \
+		schedule(\cf7 "moveBackground"\cf0 );\cf8 //
+\f0 \'c9\'e8\'d6\'c3
+\f2  
+\f0 \'b1\'b3\'be\'b0\'d2\'c6\'b6\'af\'b6\'a8\'ca\'b1\'c6\'f7
+\f2 \cf0 \
+							\
+	\}
+\fs34 \
+
+\fs22 \
+\
+\
+\
+
+\f0 //\'b3\'f5\'ca\'bc\'bb\'af\'b1\'b3\'be\'b0
+\f2 \
+\cf2 private\cf0  \cf2 void\cf0  initBackground() \{\
+	\
+			\cf3 background1\cf0 .setAnchorPoint(0,0);\cf8 //
+\f0 \'c3\'aa\'b5\'e3\'d4\'da\'d7\'f3\'cf\'c2\'bd\'c7
+\f2 \cf0 \
+			\cf3 background2\cf0 .setAnchorPoint(0,0);\
+				\
+			\cf3 background1\cf0 .setPosition(0,0);\cf8 //
+\f0 \'ce\'bb\'d6\'c3\'d4\'da\'c6\'c1\'c4\'bb\'c9\'cf
+\f2 \cf0 \
+			\cf3 background2\cf0 .setPosition(0, \cf3 background1\cf0 .getContentSize().\cf3 height\cf0 );\cf8 //
+\f0 \'d4\'da\'b1\'b3\'be\'b0
+\f2 1
+\f0 \'b5\'c4\'c9\'cf\'b1\'df
+\f2 \cf0 \
+				\
+			\cf2 this\cf0 .addChild(\cf3 background1\cf0 );\cf8 //
+\f0 \'bd\'ab\'b1\'b3\'be\'b0\'cc\'ed\'bc\'d3\'b5\'bd\'cd\'bc\'b2\'e3\'d6\'d0
+\f2 \cf0 \
+			\cf2 this\cf0 .addChild(\cf3 background2\cf0 );\
+		\}\
+	\cf8 //
+\f0 \'d2\'c6\'b6\'af\'b1\'b3\'be\'b0
+\f2 \cf0 \
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \
+\'b4\'b4\'bd\'a8\'b7\'c9\'bb\'fa\
+\
+\'b4\'b4\'bd\'a8Player\'c0\'e0\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f2\fs22 \cf0 \
+\pard\pardeftab720
+\cf2 public\cf0  \cf2 class\cf0  Player \cf2 extends\cf0  CCSprite\{\
+	\
+	\cf2 int\cf0  \cf3 lifes\cf0 ;\
+	\cf2 int\cf0  \cf3 scores\cf0 ;\
+\
+	\cf2 public\cf0  Player() \{\
+		\cf2 super\cf0 (\cf7 "player.png"\cf0 );\
+	\}\
+	\
+	\cf2 public\cf0  \cf2 int\cf0  getLifes() \{\
+		\cf2 return\cf0  \cf3 lifes\cf0 ;\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  setLifes(\cf2 int\cf0  lifes) \{\
+		\cf2 this\cf0 .\cf3 lifes\cf0  = lifes;\
+	\}\
+\
+	\cf2 public\cf0  \cf2 int\cf0  getScores() \{\
+		\cf2 return\cf0  \cf3 scores\cf0 ;\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  setScores(\cf2 int\cf0  scores) \{\
+		\cf2 this\cf0 .\cf3 scores\cf0  = scores;\
+	\}\
+\
+\
+\
+	\cf2 public\cf0  \cf2 void\cf0  bomb() \{\
+		ArrayList<CCSpriteFrame> frames = \cf2 new\cf0  ArrayList<CCSpriteFrame>();\
+		\cf2 for\cf0  (\cf2 int\cf0  i = 1; i < 6; i++) \{\
+			CCSpriteFrame frame = CCSprite.sprite(\cf7 "player_"\cf0  + i + \cf7 ".png"\cf0 )\
+					.displayedFrame();\
+			frames.add(frame);\
+		\}\
+		CCAnimation animation = CCAnimation.animation(\cf7 "planebomb"\cf0 , frames);\
+		CCAnimate animate = CCAnimate.action(0.5f, animation, \cf2 false\cf0 );\
+		CCSequence seq = CCSequence.actions(animate,\
+				CCCallFunc.action(\cf2 this\cf0 , \cf7 "destory"\cf0 ));\
+		\cf2 this\cf0 .runAction(seq);\
+	\}\
+	\
+	\cf2 public\cf0  \cf2 static\cf0  Player sprite(String filepath)\{\
+		\cf2 return\cf0  \cf2 new\cf0  Player();\
+	\}\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \
+\
+GameLayer\'d6\'d0\'ca\'b5\'cf\'d6\'b7\'c9\'bb\'fa\'b5\'c4\'b7\'bd\'b7\'a8\
+\
+\
+\pard\pardeftab720
+
+\f2\fs22 \cf0 	\cf2 private\cf0  player \cf3 player\cf0 ;\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \
+\pard\pardeftab720
+
+\fs28 \cf0 //\'b9\'b9\'d4\'ec\'b7\'bd\'b7\'a8\'d6\'d0
+\fs40 \
+\pard\pardeftab720
+
+\fs30 \cf0 //\'b4\'b4\'bd\'a8\'b3\'f5\'ca\'bc\'bb\'af\'b7\'bd\'b7\'a8\
+\pard\pardeftab720
+
+\f2\fs22 \cf0 	initPlayer();\
+\
+\
+
+\f0 //\'ca\'b5\'cf\'d6\'b3\'f5\'ca\'bc\'bb\'af\'b7\'bd\'b7\'a8
+\f2 \
+	\cf2 private\cf0  \cf2 void\cf0  initPlayer() \{\
+		\
+				\cf3 winSize\cf0  = CCDirector.sharedDirector().winSize();\cf8 //
+\f0 \'bb\'f1\'c8\'a1\'c6\'c1\'c4\'bb\'b3\'df\'b4\'e7\'b6\'d4\'cf\'f3
+\f2   
+\f0 \'d2\'d4\'ba\'f3\'be\'ad\'b3\'a3\'d3\'c3\'b5\'bd
+\f2 \cf0 \
+				\
+				\cf3 player\cf0  = \cf2 new\cf0  player();\
+				\cf3 player\cf0 .setAnchorPoint(0.5f, 0);\cf8 //
+\f0 \'c9\'e8\'d6\'c3\'b7\'c9\'bb\'fa\'c3\'aa\'b5\'e3\'d4\'da\'cf\'c2\'b1\'df\'d4\'b5\'d6\'d0\'bc\'e4\'ce\'bb\'d6\'c3
+\f2 \cf0 \
+				\cf3 player\cf0 .setPosition(\cf3 winSize\cf0 .\cf3 width\cf0  / 2, 0);\cf8 //
+\f0 \'c9\'e8\'d6\'c3\'b7\'c9\'bb\'fa\'ce\'bb\'d6\'c3
+\f2  
+\f0 \'d4\'da\'c6\'c1\'c4\'bb\'b5\'d7\'b2\'bf\'d6\'d0\'d0\'c4\'ce\'bb\'d6\'c3
+\f2 \cf0 \
+\
+				\cf2 this\cf0 .addChild(\cf3 player\cf0 );\
+			\}	\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \
+\
+\
+\
+\pard\pardeftab720
+
+\f2\fs22 \cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \
+\
+\
+\
+\
+\
+\'b4\'b4\'bd\'a8\'d7\'d3\'b5\'af\
+\pard\pardeftab720
+
+\f2 \cf0 \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\pard\pardeftab720
+
+\f0\fs34 \cf0 \'d0\'c2\'bd\'a8
+\f2 Bullet
+\f0 \'c0\'e0
+\f2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\fs22 \cf0 \
+\pard\pardeftab720
+\cf2 public\cf0   \cf2 class\cf0  Bullet \cf2 extends\cf0  CCSprite\{\
+	 \
+	\cf2 int\cf0  \cf3 attack\cf0 ;\
+	\cf2 float\cf0  \cf3 speed\cf0 ;\
+	\
+	\cf2 public\cf0  Bullet(String filepath)\{\
+		\cf2 super\cf0 (filepath);	\
+	\}\
+\
+	\cf2 public\cf0  \cf2 int\cf0  getAttack() \{\
+		\cf2 return\cf0  \cf3 attack\cf0 ;\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  setAttack(\cf2 int\cf0  attack) \{\
+		\cf2 this\cf0 .\cf3 attack\cf0  = attack;\
+	\}\
+\
+	\cf2 public\cf0  \cf2 float\cf0  getSpeed() \{\
+		\cf2 return\cf0  \cf3 speed\cf0 ;\
+	\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  setSpeed(\cf2 float\cf0  speed) \{\
+		\cf2 this\cf0 .\cf3 speed\cf0  = speed;\
+	\}\
+\}\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\fs34 \cf0 GameLayer
+\f0 \'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 	\cf2 private\cf0  List<Bullet> \cf3 playerBullets\cf0 ;
+\f0 //\'c9\'f9\'c3\'f7
+\f2 \
+\
+\
+\pard\pardeftab720
+
+\f0\fs28 \cf0 //\'b9\'b9\'d4\'ec\'b7\'bd\'b7\'a8\'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+
+\f0 //\'b5\'f7\'d3\'c3\'b7\'bd\'b7\'a8
+\f2 \
+	CCScheduler.sharedScheduler().schedule(\cf7 "tick"\cf0 , \cf2 this\cf0 , 0.2f, \cf2 false\cf0 );\
+\
+				\cf3 playerBullets\cf0  = \cf2 new\cf0  ArrayList<Bullet>();\
+\
+\
+\
+\
+
+\f0 //\'b7\'bd\'b7\'a8\'ca\'b5\'cf\'d6\
+\
+
+\f2 \cf2 public\cf0  \cf2 void\cf0  tick(\cf2 float\cf0  delta)\{\
+		\
+			playerShoot();\
+		\}\
+\
+\
+	\cf2 public\cf0  \cf2 void\cf0  playerShoot()\{\
+\
+				Bullet bullet=\cf2 new\cf0  Bullet(\cf7 "bullet_blue.png"\cf0 );\cf8 //
+\f0 \'b4\'b4\'bd\'a8\'c0\'b6\'c9\'ab\'d7\'d3\'b5\'af
+\f2 \cf0 \
+				\cf2 float\cf0  y=\cf3 player\cf0 .getPosition().\cf3 y\cf0 +\cf3 player\cf0 .getContentSize().\cf3 height\cf0 ;\
+				bullet.setPosition(\cf3 player\cf0 .getPosition().\cf3 x\cf0 ,y);\cf8 //
+\f0 \'ce\'bb\'d6\'c3
+\f2 	\cf0 \
+				bullet.setAttack(5);\cf8 //
+\f0 \'b9\'a5\'bb\'f7\'d6\'b5
+\f2 \cf0 \
+				bullet.setSpeed(\cf3 winSize\cf0 .\cf3 height\cf0 *0.6f);\cf8 //
+\f0 \'c9\'e8\'d6\'c3\'d7\'d3\'b5\'af\'d4\'cb\'d0\'d0\'cb\'d9\'b6\'c8
+\f2 \cf0 \
+				\
+				\cf3 playerBullets\cf0 .add(bullet);\cf8 //
+\f0 \'cc\'ed\'bc\'d3\'b5\'bd\'d7\'d3\'b5\'af\'bc\'af\'ba\'cf\'d6\'d0
+\f2 \cf0 \
+				\
+				\cf2 this\cf0 .addChild(bullet);\cf8 //
+\f0 \'cc\'ed\'bc\'d3\'b5\'bd\'d3\'ce\'cf\'b7\'b2\'e3\'d6\'d0
+\f2 \cf0 \
+				\
+				\cf8 /*
+\f0 \'d7\'d3\'b5\'af\'d6\'b4\'d0\'d0\'ce\'bb\'d2\'c6\'b6\'af\'bb\'ad
+\f2 */\cf0 \
+				CGPoint pos=CGPoint.ccp(bullet.getPosition().\cf3 x\cf0 ,\cf3 winSize\cf0 .\cf3 height\cf0 +bullet.getContentSize().\cf3 width\cf0 );\cf8 //
+\f0 \'c4\'bf\'b5\'c4\'b5\'d8\
+
+\f2 \cf0 \
+			\cf2 float\cf0  t=CGPointUtil.distance(bullet.getPosition(),pos)/bullet.getSpeed();\cf8 //
+\f0 \'d6\'b4\'d0\'d0\'ca\'b1\'bc\'e4
+\f2 \cf0 \
+			CCMoveTo move=CCMoveTo.action(t,pos);\
+				\
+			CCCallFunc func=CCCallFuncND.action(\cf2 this\cf0 ,\cf7 "removeBullet"\cf0 ,bullet);\cf8 //
+\f0 \'b4\'b4\'bd\'a8\'bb\'d8\'b5\'f4\'b7\'bd\'b7\'a8\'b6\'d4\'cf\'f3
+\f2 \cf0 \
+				\
+			CCSequence seq=CCSequence.actions(move,func);\cf8 //
+\f0 \'cb\'b3\'d0\'f2\'bc\'af\'ba\'cf\'b6\'af\'d7\'f7
+\f2 \cf0 \
+				\
+			bullet.runAction(seq);\cf8 //
+\f0 \'d4\'cb\'d0\'d0\'cb\'b3\'d0\'f2\'bc\'af\'ba\'cf\'b6\'af\'d7\'f7
+\f2 \cf0 \
+			\
+			\}\
+\
+\
+\
+\pard\pardeftab720
+
+\f0\fs28 \cf0 //\'c9\'be\'b3\'fd\'d7\'d3\'b5\'af\'b6\'d4\'cf\'f3
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf2 public\cf0  \cf2 void\cf0  removeBullet(Object node,Object bullet)\{\
+		\
+			\cf3 playerBullets\cf0 .remove(bullet);\cf8 //
+\f0 \'b4\'d3\'d7\'d3\'b5\'af\'bc\'af\'ba\'cf\'d6\'d0
+\f2  
+\f0 \'c9\'be\'c8\'a5
+\f2 \cf0 \
+			\
+			Bullet temp=(Bullet) bullet;\
+			\
+			temp.removeSelf();\cf8 //
+\f0 \'cf\'fa\'bb\'d9
+\f2 \cf0 \
+		\}\
+		\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\f0\fs40 \cf0 \'d2\'c6\'b6\'af\'b7\'c9\'bb\'fa\
+\pard\pardeftab720
+
+\fs30 \cf0 //GameLayer\'d6\'d0\
+\pard\pardeftab720
+
+\f2\fs22 \cf0 \
+\
+	\cf2 private\cf0  CGPoint \cf3 startPoint\cf0 ;\
+
+\f0 \
+
+\f2 \
+\pard\pardeftab720
+
+\f0\fs28 \cf0 //\'b9\'b9\'d4\'ec\'b7\'bd\'b7\'a8\'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 	\
+	setIsTouchEnabled(\cf2 true\cf0 );\cf8 //
+\f0 \'c9\'e8\'d6\'c3
+\f2  
+\f0 \'b8\'c3\'b2\'e3\'bf\'c9\'d2\'d4\'b2\'d9\'d7\'f7\'b4\'a5\'c6\'c1
+\f2 	\
+\
+\
+\
+\
+\
+//
+\f0 \'ca\'b5\'cf\'d6\'d2\'c6\'b6\'af\'b5\'c4\'b7\'bd\'b7\'a8
+\f2 \
+\cf2 public\cf0  \cf2 boolean\cf0  ccTouchesMoved(MotionEvent event) \{\
+			CGPoint pos = convertTouchToNodeSpace(event);\
+			\
+					\cf2 float\cf0  dx = pos.\cf3 x\cf0 -\cf3 startPoint\cf0 .\cf3 x\cf0 ;\
+					\cf2 float\cf0  dy = pos.\cf3 y\cf0 -\cf3 startPoint\cf0 .\cf3 y\cf0 ;\cf8 //\cf0 \
+\
+					\cf2 float\cf0  x = \cf3 player\cf0 .getPosition().\cf3 x\cf0  + dx;\
+					\cf2 float\cf0  y = \cf3 player\cf0 .getPosition().\cf3 y\cf0  + dy;\
+\
+					\cf8 /*
+\f0 \'bc\'f2\'b5\'a5\'c5\'d0\'b6\'cf\'d2\'bb\'cf\'c2
+\f2  
+\f0 \'b7\'c9\'bb\'fa\'d3\'d0\'c3\'bb\'d3\'d0\'b3\'ac\'b3\'f6\'c6\'c1\'c4\'bb\'cd\'e2\'b1\'df\'c8\'a5
+\f2   */\cf0 \
+					\cf2 if\cf0  (x < 0) \{\
+						x = 0;\
+					\} \cf2 else\cf0  \cf2 if\cf0  (x > \cf3 winSize\cf0 .\cf3 width\cf0 ) \{\
+					x = \cf3 winSize\cf0 .\cf3 width\cf0 ;\
+					\}\
+\
+				\cf2 if\cf0  (y < 0) \{\
+					y = 0;\
+				\} \cf2 else\cf0  \cf2 if\cf0  (y > \cf3 winSize\cf0 .\cf3 height\cf0  - \cf3 player\cf0 .getContentSize().\cf3 height\cf0 ) \{\
+					y = \cf3 winSize\cf0 .\cf3 height\cf0  - \cf3 player\cf0 .getContentSize().\cf3 height\cf0 ;\
+					\}\
+\
+				\cf3 player\cf0 .setPosition(x, y);\
+\
+				\cf3 startPoint\cf0 =pos;\
+					\
+				\cf2 return\cf0  \cf2 super\cf0 .ccTouchesMoved(event);\
+		\}\
+		\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+\
+\pard\pardeftab720
+
+\f0\fs44 \cf0 \'b4\'b4\'bd\'a8\'b5\'d0\'bb\'fa
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs28 \cf0 //\'b4\'b4\'bd\'a8
+\f2 Enemy
+\f0 \'c0\'e0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf2 \
+public\cf0  \cf2 class\cf0  Enemy \cf2 extends\cf0  CCSprite \{\
+\
+	\cf2 int\cf0  \cf3 life\cf0 ;\
+	\cf2 float\cf0  \cf3 speed\cf0 ;\
+	\cf2 int\cf0  \cf3 score\cf0 ;\
+	\
+	\cf2 public\cf0  \cf2 boolean\cf0  \cf3 isDie\cf0 =\cf2 false\cf0 ;\
+\
+	\cf2 public\cf0  Enemy(String filepath) \{\
+		\cf2 super\cf0 (filepath);\
+	\}\
+	\cf2 public\cf0  \cf2 int\cf0  getLife() \{\
+		\cf2 return\cf0  \cf3 life\cf0 ;\
+	\}\
+	\cf2 public\cf0  \cf2 void\cf0  setLife(\cf2 int\cf0  life) \{\
+		\cf2 this\cf0 .\cf3 life\cf0  = life;\
+	\}\
+	\cf2 public\cf0  \cf2 float\cf0  getSpeed() \{\
+		\cf2 return\cf0  \cf3 speed\cf0 ;\
+	\}\
+	\cf2 public\cf0  \cf2 void\cf0  setSpeed(\cf2 float\cf0  speed) \{\
+		\cf2 this\cf0 .\cf3 speed\cf0  = speed;\
+	\}\
+	\cf2 public\cf0  \cf2 int\cf0  getScore() \{\
+		\cf2 return\cf0  \cf3 score\cf0 ;\
+	\}\
+	\cf2 public\cf0  \cf2 void\cf0  setScore(\cf2 int\cf0  score) \{\
+		\cf2 this\cf0 .\cf3 score\cf0  = score;\
+	\}\
+\}\
+\
+\
+\pard\pardeftab720
+
+\fs34 \cf0 GameLayer
+\f0 \'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+
+\f0 //\'c9\'f9\'c3\'f7
+\f2 \
+	\cf2 private\cf0  List<Enemy> \cf3 enemies\cf0 ;\
+\
+\pard\pardeftab720
+
+\f0\fs28 \cf0 //\'b9\'b9\'d4\'ec\'b7\'bd\'b7\'a8\'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\pard\pardeftab720
+\cf3 	enemies\cf0 =\cf2 new\cf0  ArrayList<Enemy>();\cf8 //
+\f0 \'b4\'b4\'bd\'a8
+\f2  
+\f0 \'b5\'d0\'bb\'fa\'b6\'d4\'cf\'f3\'bc\'af\'ba\'cf
+\f2 \cf0 \
+				\
+	CCScheduler.sharedScheduler().schedule(\cf7 "makeEnemies"\cf0 ,\cf2 this\cf0 ,0.2f,\cf2 false\cf0 );\cf8 //
+\f0 \'b5\'d0\'bb\'fa\'c9\'fa\'b3\'c9\'b6\'a8\'ca\'b1\'c6\'f7\
+\
+\
+\
+\
+\
+//\'ca\'b5\'cf\'d6\'b4\'b4\'bd\'a8\'b7\'c9\'bb\'fa\'b5\'c4\'b7\'bd\'b7\'a8\
+\pard\pardeftab720
+
+\f2 \cf2 public\cf0  \cf2 void\cf0  makeEnemies(\cf2 float\cf0  delta)\{\
+			\
+				Enemy enemy=\cf2 new\cf0  Enemy(\cf7 "enemy01_1.png"\cf0 );\cf8 //
+\f0 \'b4\'b4\'bd\'a8\'b5\'d0\'bb\'fa
+\f2 \cf0 \
+					enemy.setAnchorPoint(0,0);\
+					enemy.setLife(20);\
+					enemy.setScore(50);\
+					enemy.setSpeed(\cf3 winSize\cf0 .\cf3 height\cf0 *0.2f);\
+					\
+					\
+					\cf8 /*
+\f0 \'c9\'e8\'d6\'c3\'b5\'c4\'b3\'f6\'cf\'d6\'b5\'c4\'ce\'bb\'d6\'c3
+\f2 */\cf0 \
+					\cf2 float\cf0  x=(\cf2 float\cf0 ) (Math.random()*(\cf3 winSize\cf0 .\cf3 width\cf0 -enemy.getContentSize().\cf3 width\cf0 ));\cf8 //
+\f0 \'cb\'e6\'bb\'fa
+\f2 x
+\f0 \'d6\'e1\'d7\'f8\'b1\'ea
+\f2 \cf0 \
+					\cf2 float\cf0  y=\cf3 winSize\cf0 .\cf3 height\cf0 +(\cf2 float\cf0 )Math.random()*enemy.getContentSize().\cf3 height\cf0 ;\cf8 //
+\f0 \'cb\'e6\'bb\'fa
+\f2 y
+\f0 \'d6\'e1\'d7\'f8\'b1\'ea
+\f2 \cf0 \
+					enemy.setPosition(x, y);\
+					\
+				\cf3 enemies\cf0 .add(enemy);\cf8 //
+\f0 \'cc\'ed\'bc\'d3\'b5\'bd\'b5\'d0\'bb\'fa\'bc\'af\'ba\'cf
+\f2 \cf0 \
+					\
+				\cf2 this\cf0 .addChild(enemy);\cf8 //
+\f0 \'cc\'ed\'bc\'d3\'b5\'bd\'cd\'bc\'b2\'e3
+\f2 \cf0 \
+					\
+					\cf8 //
+\f0 \'d6\'b4\'d0\'d0\'b6\'af\'bb\'ad
+\f2 \cf0 \
+				CGPoint pos=CGPoint.ccp(enemy.getPosition().\cf3 x\cf0 ,0);\cf8 //
+\f0 \'c4\'bf\'b5\'c4\'b5\'d8
+\f2 \cf0 \
+				\cf2 float\cf0  t=CGPointUtil.distance(enemy.getPosition(),pos)/enemy.getSpeed();\cf8 //
+\f0 \'d6\'b4\'d0\'d0\'ca\'b1\'bc\'e4
+\f2 \cf0 \
+				CCMoveTo move=CCMoveTo.action(t,pos);\
+					\
+				CCCallFunc func=CCCallFuncND.action(\cf2 this\cf0 ,\cf7 "removEenemy"\cf0 ,enemy);\
+					\
+				CCSequence seq=CCSequence.actions(move,func);\
+					\
+				enemy.runAction(seq);\
+				\
+				\}
+\f0 \cf8 \
+\
+\
+\
+
+\f2 \cf0 \
+					\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\f0\fs38 \cf0 \'c5\'f6\'d7\'b2\'bc\'ec\'b2\'e2\
+
+\f2 \
+\pard\pardeftab720
+
+\fs30 \cf0 GameLayer
+\f0 \'d6\'d0
+\f2 \
+\pard\pardeftab720
+
+\f0\fs22 \cf0 \'b9\'b9\'d4\'ec\'b7\'bd\'b7\'a8\'d6\'d0\'b5\'f7\'d3\'c3
+\f2 \
+\
+\pard\pardeftab720
+
+\fs26 \cf0 				schedule(\cf7 "checkCollision"\cf0 );\
+\pard\pardeftab720
+
+\fs22 \cf0 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs36 \cf0 //\'ca\'b5\'cf\'d6\'b7\'bd\'b7\'a8\
+\pard\pardeftab720
+
+\f2\fs22 \cf0 	\
+\cf2 public\cf0  \cf2 void\cf0  checkCollision(\cf2 float\cf0  delta)\{\
+			\
+			\cf8 /*
+\f0 \'bc\'ec\'b2\'e9
+\f2  
+\f0 \'b5\'d0\'bb\'fa\'d3\'d0\'c3\'bb\'d3\'d0\'d3\'eb\'b7\'c9\'bb\'fa\'c5\'f6\'d7\'b2
+\f2 */\cf0 \
+			\
+			\cf2 for\cf0  (Enemy enemy : \ul enemies\ulnone ) \{\
+				\
+				\cf2 if\cf0  (CGRect.intersects(enemy.getBoundingBox(),\
+						\cf3 player\cf0 .getBoundingBox())) \{\cf8 // 
+\f0 \'b1\'ed\'ca\'be
+\f2  
+\f0 \'b5\'d0\'bb\'fa\'d3\'eb\'cd\'e6\'bc\'d2\'c5\'f6\'d7\'b2
+\f2 \cf0 \
+					\
+					\cf8 //playerBomb();//
+\f0 \'cd\'e6\'bc\'d2\'b1\'ac\'d5\'a8
+\f2   
+\f0 \'d5\'e2\'c0\'ef\'d4\'da\'cf\'c2\'b1\'df\'ca\'b5\'cf\'d6\'b8\'c3\'b7\'bd\'b7\'a8
+\f2 \cf0 \
+					\
+				\}\cf2 else\cf0  \{\
+					\cf8 /*
+\f0 \'c3\'bb\'d3\'d0\'cf\'e0\'d7\'b2
+\f2  
+\f0 \'bf\'b4\'d2\'bb\'cf\'c2
+\f2  
+\f0 \'d7\'d3\'b5\'af\'d3\'d0\'c3\'bb\'d3\'d0\'b4\'f2\'d6\'d0
+\f2  
+\f0 \'b5\'d0\'bb\'fa
+\f2 */\cf0 \
+					\cf2 for\cf0  (Bullet bullet : \cf3 playerBullets\cf0 ) \{\
+						\cf2 if\cf0  (CGRect.intersects(bullet.getBoundingBox(),\
+								enemy.getBoundingBox())) \{\
+							\cf8 // 
+\f0 \'b1\'ed\'ca\'be
+\f2  
+\f0 \'d7\'d3\'b5\'af\'b4\'f2\'d6\'d0\'c1\'cb\'b5\'d0\'bb\'fa
+\f2 \cf0 \
+							\cf2 int\cf0  sub=enemy.getLife()-bullet.getAttack();\
+							\cf2 if\cf0 (sub<=0)\{\
+								enemyBomb(enemy);\cf8 //
+\f0 \'b5\'d0\'bb\'fa\'b1\'ac\'d5\'a8
+\f2   
+\f0 \'d5\'e2\'c0\'ef\'b4\'d3\'cf\'c2\'b1\'df\'ca\'b5\'cf\'d6\'b8\'c3\'b7\'bd\'b7\'a8
+\f2 \cf0 \
+							\}\cf2 else\cf0 \{\
+							enemy.setLife(sub);\cf8 //
+\f0 \'b5\'d0\'bb\'fa\'c9\'fa\'c3\'fc\'d6\'b5\'bc\'f5\'c9\'d9
+\f2 \cf0 \
+							\}			\
+							\cf8 //
+\f0 \'b4\'d3\'bc\'af\'ba\'cf\'d6\'d0
+\f2  
+\f0 \'c9\'be\'b3\'fd\'d7\'d3\'b5\'af\'b6\'d4\'cf\'f3
+\f2 \cf0 \
+							removeBullet(\cf2 null\cf0 , bullet);\
+\
+						\}\
+					\
+					\}\
+					\
+				\}\
+			\}\
+			\
+		\}\
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\pardeftab720
+
+\fs28 \cf0 //
+\f0 \'b5\'d0\'bb\'fa\'b1\'ac\'d5\'a8\'b5\'c4\'b7\'bd\'b7\'a8
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf0  \cf2 void\cf0  enemyBomb(Enemy enemy) \{\
+	\cf8 /*
+\f0 \'b5\'d0\'bb\'fa\'b1\'ac\'d5\'a8\'d6\'a1\'b6\'af\'bb\'ad
+\f2 */\cf0 \
+	ArrayList<CCSpriteFrame> frames = \cf2 new\cf0  ArrayList<CCSpriteFrame>();\
+	\cf2 for\cf0  (\cf2 int\cf0  i = 1; i < 6; i++) \{\
+		CCSpriteFrame frame = CCSprite.sprite(\cf7 "enemy01_"\cf0  + i + \cf7 ".png"\cf0 )\
+				.displayedFrame();\
+			frames.add(frame);\
+	\}\
+		CCAnimation animation = CCAnimation.animation(\cf7 "eabomb"\cf0 , frames);\
+		CCAnimate animate = CCAnimate.action(1f, animation, \cf2 false\cf0 );\
+		CCSequence seq = CCSequence.actions(animate,\
+			CCCallFuncND.action(\cf2 this\cf0 ,\cf7 "removEenemy"\cf0 ,enemy));\
+		enemy.runAction(seq);\
+\}\
+\
+\
+\
+\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97
+\f0 \'d4\'cb\'d0\'d0
+\f2 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\pard\pardeftab720
+
+\fs30 \cf0 //
+\f0 \'cd\'e6\'bc\'d2\'b1\'ac\'d5\'a8\'b7\'bd\'b7\'a8\'b5\'f7\'d3\'c3
+\f2 \
+\pard\pardeftab720
+
+\fs22 \cf2 for\cf0  (Enemy enemy : \cf3 enemies\cf0 ) \{\
+				\
+				\cf2 if\cf0  (CGRect.intersects(enemy.getBoundingBox(),\
+						\cf3 player\cf0 .getBoundingBox())) \{\cf8 // 
+\f0 \'b1\'ed\'ca\'be
+\f2  
+\f0 \'b5\'d0\'bb\'fa\'d3\'eb\'cd\'e6\'bc\'d2\'c5\'f6\'d7\'b2
+\f2 \cf0 \
+					\
+\pard\pardeftab720
+
+\fs24 \cf0 					playerBomb();\cf8 //
+\f0 \'cd\'e6\'bc\'d2\'b1\'ac\'d5\'a8
+\f2   
+\f0 \'d5\'e2\'c0\'ef\'d4\'da\'cf\'c2\'b1\'df\'ca\'b5\'cf\'d6\'b8\'c3\'b7\'bd\'b7\'a8
+\f2 \cf0 \
+\pard\pardeftab720
+
+\fs22 \cf0 					\
+				\}\cf2 else\cf0  \{\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\fs30 \cf0 //
+\f0 \'cd\'e6\'bc\'d2\'b1\'ac\'d5\'a8\'b7\'bd\'b7\'a8\'ca\'b5\'cf\'d6
+\f2\fs22 \
+\pard\pardeftab720
+\cf2 public\cf0  \cf2 void\cf0  playerBomb() \{\
+	\cf8 /*
+\f0 \'cd\'e6\'bc\'d2\'b1\'ac\'d5\'a8\'d6\'a1\'b6\'af\'bb\'ad
+\f2 */\cf0 \
+		ArrayList<CCSpriteFrame> frames = \cf2 new\cf0  ArrayList<CCSpriteFrame>();\
+		\cf2 for\cf0  (\cf2 int\cf0  i = 1; i < 6; i++) \{\
+		CCSpriteFrame frame = CCSprite.sprite(\cf7 "player_"\cf0  + i + \cf7 ".png"\cf0 )\
+				.displayedFrame();\
+			frames.add(frame);\
+	\}\
+		CCAnimation animation = CCAnimation.animation(\cf7 "planebomb"\cf0 , frames);\
+		CCAnimate animate = CCAnimate.action(1f, animation, \cf2 false\cf0 );\
+		CCSequence seq = CCSequence.actions(animate,\
+			CCCallFunc.action(\cf2 this\cf0 , \cf7 "destoryPlayer"\cf0 ));\
+		\cf3 player\cf0 .runAction(seq);\
+\}\
+\
+	\cf2 public\cf0  \cf2 void\cf0  destoryPlayer()\{\
+		\cf3 player\cf0 .removeSelf();\cf8 //
+\f0 \'b4\'d3
+\f2 layer
+\f0 \'d6\'d0\'d2\'c6\'b3\'fd
+\f2 \cf0 \
+		\
+\}\
+\
+\
+\
+\
+}

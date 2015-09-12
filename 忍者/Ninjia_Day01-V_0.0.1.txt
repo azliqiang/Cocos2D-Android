@@ -1,0 +1,520 @@
+﻿
+/*
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Copyleft (C) 2009-2014
+ * COEO - China Open Education Organization
+ * "+++New Life+++" Team for Computer Science
+ * Free as in freedom. The Truth Will Free You.
+ * 张开自由的翅膀，真理要释放你。
+ * To teach the inexperienced the ropes 
+ * and give our young people a grasp on reality.
+ * 教导没有经验的得以丰富，给予青年人开启真理的钥匙。
+ * The old life is gone; a new life burgeons!
+ * 告别飘逝的过去，拥抱怒放的新生！
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This file is available to you under a choice of one of two licenses.
+ *
+ * GPL
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published
+ * by the Free Software Foundation.
+ *
+ * THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND, AND THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE
+ * ARE EXPRESSLY DISCLAIMED.
+ *
+ * See the GNU General Public License * for more details.
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * 
+ * BSD
+ *
+ *  Alternatively you can redistribute this file under the terms of the
+ *  BSD license as stated below:
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *  3. The names of its contributors may not be used to endorse or promote
+ *     products derived from this software without specific prior written
+ *     permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Description:
+ *     This file describe Cocos2d-Android Aircraft game.
+ *
+ * Original Date:
+ *     Aug-31-2014
+ *
+ * Modified Date:
+ *
+ * Authors:
+ *     Yuhui    <abrahambenyu@gmail.com>
+ *
+ * Current Version:
+ *     0.0.1
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Table of Centents
+
+    01. Create Project
+    02. CCGLSurfceView and CCDirector
+    03. Set Application-Related Properties
+    04. Generating an Scenes Object Layer
+    05. Generating an Background Object Layer
+    06. Adding Background Object to Scene
+    07. Running this Scene Objects
+    08. Running and Debugging
+    09. Exercises
+    10. Homework
+    11. Traps and Pitfalls
+    12. Diligence
+
+
+01. Create Project
+
+    1.01  New Android Application Project
+
+          01. File --> New --> Android Application Project；
+          02. --> Application Name: aircraft_day01，Package Name: com.openeducation.aircraft_day01;；
+          03. --> Next --> Next --> Next --> Blank Activity (Create Activity)；
+          04. --> Next --> Activity Name: MainActivity --> Finish
+
+    1.02  Including Cocos2d Libraries
+
+          01. 包在 cocos2d-android 目录下 libs 里，把这里的所有东西拷到，我们工程的 libs 目录下；
+          02. 然后，右键 cocos2d-android.jar --> Build Path --> Add to Build Path；
+              把 cocos2d-android.jar 添加到构建路径中去；
+              这时在 SG_01_First 目录下，多出来一个 Referenced Libraries；
+          03. 这些都是 Android 应用程序开发的基础知识。
+
+02. CCGLSurfceView and CCDirector
+
+    2.01  Generate a CCGLSurfceView
+
+          2.1.01  Source Code
+
+                  public class MainActivity extends Activity {
+
+                  /*
+                   * 用 Cocos2d 的 view 来替换 Android 的 view；
+                   * Cocos2d 引擎将会把图形绘制在该 view 对象上
+                   */
+                  (1) private CCGLSurfaceView view = null;
+	
+                      @Override
+                      protected void onCreate(Bundle savedInstanceState) {
+                          super.onCreate(savedInstanceState);
+                  (2)     //setContentView(R.layout.activity_main);
+
+                  (3)     view = new CCGLSurfaceView(this);
+                  (4)     setContentView(view);
+
+                  }
+
+          2.1.02  Analysis
+
+                  01. 让我们来分析一下 CCGLSurfaceview 这个名字；
+                  02. CC 明显是来自于 Cocos2d 的，看导入的包为：
+                      import org.cocos2d.opengl.CCGLSurfaceView;
+                  03. GL 说明是使用 OpenGL 技术的；
+                  04. SurfaceView 又指明它是一个 SurfaceView；
+                  05. 其实 CCGLSurfaceView 它是一个 SurfaceView 的一个子类。
+
+          2.1.03  Description
+
+                  01. view = new CCGLSurfaceView(this); 
+                  02. 生成这个 view 对象的目的，就是 Cocos2d 渲染图形的时候，
+                      要把这个图形画在这个 view 对象上去。
+
+    2.02  Get CCDirector Object
+
+          2.2.01  Source Code
+
+                  public class MainActivity extends Activity {
+
+                      private CCGLSurfaceView view = null;
+                      // 声明一个 CCDirector 变量
+                  (1) private CCDirector director  = null;
+	
+                      @Override
+                      protected void onCreate(Bundle savedInstanceState) {
+                          super.onCreate(savedInstanceState);
+                          //setContentView(R.layout.activity_main);
+
+                          view = new CCGLSurfaceView(this);
+                          setContentView(view);
+
+                          // 得到 CCDirector 对象
+                  (2)     director = CCDirector.sharedDirector();
+
+                  }
+
+          2.2.02  Analysis
+
+                  01. 让我们来分析一下 CCDirector.sharedDirector 这个名字；
+                  02. 明显这个 sharedDirector() 是一个静态方法；
+                  03. shared 是共享的，也就是说我们得到一个共享的 Director 对象；
+                  04. 为什么是共享的呢？一个 Cocos2d 应用程序当中只能有一个 Director 对象；
+                  05. 只要有用到 CCDirector 的地方，那就这样使用。
+
+03. Set Application-Related Properties
+
+    3.01  Setting for GL View Object
+
+          3.1.01  Source Code
+
+                  @Override
+                  protected void onCreate(Bundle savedInstanceState) {
+                      super.onCreate(savedInstanceState);
+                      //setContentView(R.layout.activity_main);
+
+                      view = new CCGLSurfaceView(this);
+                      setContentView(view);
+
+                      // 得到 CCDirector 对象
+                      director = CCDirector.sharedDirector();
+
+                      /* 设置应用程序相关的属性 */
+                      // 设置当前游戏程序当中所使用的 view 对象
+                  (1) director.attachInView(view);
+
+                  }
+
+          3.1.02  Description
+
+                  01. 上边生成的 view 对象并没有和 Cocos2d 引擎建立起关系；
+                  02. director.attachInView(view); 这样一个方法就是把这个 view 对象和我们
+                      Cocos2d 引擎建立关系；
+                  03. 告诉导演，你要画图向什么地方画。
+
+    3.02  Whether Display Game FPS
+
+          3.2.01  Source Code
+
+                  @Override
+                  protected void onCreate(Bundle savedInstanceState) {
+                      super.onCreate(savedInstanceState);
+                      //setContentView(R.layout.activity_main);
+
+                      view = new CCGLSurfaceView(this);
+                      setContentView(view);
+
+                      // 得到 CCDirector 对象
+                      director = CCDirector.sharedDirector();
+
+                      /* 设置应用程序相关的属性 */
+                      // 设置当前游戏程序当中所使用的 view 对象
+                      director.attachInView(view);
+                      // 设置游戏是否显示 FPS 值
+                  (1) director.setDisplayFPS(true);
+
+                  }
+
+          3.2.02  Description
+
+                  01. FPS 就是每秒钟刷新的帧数，玩过游戏的人都应该知道 FPS 理论值要保持 30
+                      帧以上这个游戏才能是流畅的；
+                  02. 设置 FPS 值 setDisplayFPS 值，咱们就可以看到我们这个应用程序运行起来够流畅。
+
+    3.03  Playing a Frame Rendering Time Required
+
+          3.3.01  Source Code
+
+                  @Override
+                  protected void onCreate(Bundle savedInstanceState) {
+                      super.onCreate(savedInstanceState);
+                      //setContentView(R.layout.activity_main);
+
+                      view = new CCGLSurfaceView(this);
+                      setContentView(view);
+
+                      // 得到 CCDirector 对象
+                      director = CCDirector.sharedDirector();
+
+                      /* 设置应用程序相关的属性 */
+                      // 设置当前游戏程序当中所使用的 view 对象
+                      director.attachInView(view);
+                      // 设置游戏是否显示 FPS 值
+                      director.setDisplayFPS(true);
+                      // 设置游戏渲染一帧数据所需要的时间
+                  (1) director.setAnimationInterval(1 / 30.0); // 60.0
+
+                  }
+
+          3.3.02  Description
+
+                  01. 每帧刷新所需要的时间；
+                  02. 1 / 30.0，那一秒钟就是要渲染 30 次。
+
+04. Generating an Scenes Object Layer
+
+    4.01  Introduction
+
+          现在 director 对象已经有了，而且已经有了属性，那么根据 PPT 我们就该生成场景对象了。
+
+    4.02  Source Code
+
+          @Override
+          protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              //setContentView(R.layout.activity_main);
+
+              view = new CCGLSurfaceView(this);
+              setContentView(view);
+
+              // 得到 CCDirector 对象
+              director = CCDirector.sharedDirector();
+
+              /* 设置应用程序相关的属性 */
+              // 设置当前游戏程序当中所使用的 view 对象
+              director.attachInView(view);
+              // 设置游戏是否显示 FPS 值
+              director.setDisplayFPS(true);
+              // 设置游戏渲染一帧数据所需要的时间
+              director.setAnimationInterval(1 / 30.0);
+
+              // 生成一个游戏场景对象
+          (1) CCScene scene = CCScene.node();
+
+          }
+
+    4.03  Analysis
+
+          01. node 是 Cocos2d 最基本的一个类；
+          02. 以后我们再说。
+
+05. Generating an Background Object Layer
+
+    5.01  Introduction
+
+          01. 下一步要生成一个图层对象；
+          02. 并且要把这个图层对象加入到场景对象里面去；
+          03. 要生成一个图层对象，我们就要新建一个类。
+
+    5.02  New Class
+
+          01. 右键 com.openeducation.aircraft_day01 --> new --> class；
+          02. Name：GameLayer --> Finish。
+
+    5.03  Source Code for Constructor GameLayer()
+
+          package com.openeducation.aircraft_day01;
+
+          //
+          // CCColorLayer
+          //
+          /** CCColorLayer is a subclass of CCLayer that implements the CCRGBAProtocol protocol.
+
+              All features from CCLayer are valid, plus the following new features:
+              - opacity
+              - RGB colors
+           */
+
+          // cocos2d/cocos2d-android/src/org/cocos2d/layers/CCColorLayer.java
+
+              // 注意，这里的 GameLayer 类一定要继承 CCLayer
+          (1)  public class GameLayer extends CCColorLayer { // Ctrl + Shift + o
+
+          (5)      CCDirector director = null;
+          (7)      CGSize     winSize  = null;
+
+          (2)      public GameLayer(ccColor4B color) {
+          (3)          super(color);
+          (4)          this.setIsTouchEnabled(true);
+          (6)          director = CCDirector.sharedDirector();
+          (8)          winSize  = director.displaySize();
+                   }
+
+              } // end of class GameLayer
+
+    5.04  Source Code for ccTouchesBegan()
+
+          package com.openeducation.aircraft_day01;
+
+          // 注意，这里的 GameLayer 类一定要继承 CCLayer
+          public class GameLayer extends CCColorLayer { // Ctrl + Shift + o
+
+              CCDirector director = null;
+              CGSize     winSize  = null;
+          (15)float      v        = 480;
+
+              public GameLayer(ccColor4B color) {
+                  super(color);
+                  this.setIsTouchEnabled(true);
+                  director = CCDirector.sharedDirector();
+                  winSize  = director.displaySize();
+              }
+
+              /*
+               * 点击菜单栏：  Source --> Override/Implement Methods...
+               * 选择回调函数： ccTouchesBegan(MotionEvent)
+               *               ccTouchesEnded(MotionEvent)
+               *               ccTouchesMoved(MotionEvent)
+               */
+
+              @Override
+              public boolean ccTouchesBegan(MotionEvent event) {
+
+          (1)     CCSprite bullet = CCSprite.sprite("bullet.png");
+          (2)     bullet.setPosition(winSize.width/2, 0);
+          (3)     this.addChild(bullet);
+
+          (4)     float touchX = event.getX();
+          (5)     float touchY = winSize.height - event.getY();
+          (6)     float initX  = winSize.width / 2;
+          (7)     float initY  = 0;
+          (8)     CGPoint initPoint = CGPoint.ccp(initX, initY);
+          (9)     bullet.setPosition(initPoint);
+
+          (10)    float targetY = winSize.height;
+          (11)    float targetX =
+                          winSize.width / 2 +
+                          (winSize.height *(touchX - winSize.width/2)) / touchY;
+          (12)    CGPoint targetPoint = CGPoint.ccp(targetX, targetY);
+          (13)    float distance = CGPoint.ccpDistance(initPoint,targetPoint);
+
+          (14)    float t = distance / v;
+          (16)    CCMoveTo moveTo  = CCMoveTo.action(t, targetPoint);
+
+          (17)    CCCallFuncN func = CCCallFuncN.action(this, "onMoveToFinished");
+          (18)    CCSequence seq   = CCSequence.actions(moveTo, func);
+          (19)    bullet.runAction(seq);
+
+                  // TODO Auto-generated method stub
+          (20)    return super.ccTouchesBegan(event);
+              }
+
+          } // end of class GameLayer
+
+          /* 代码到这里，我们可以测试一下，你会发现子弹粘在屏幕的最上面了 */
+
+    5.05  Source Code for onMoveToFinished()
+
+          (1)    public void onMoveToFinished(Object sender) {
+          (2)        CCSprite bullet = (CCSprite)sender;
+          (3)        this.removeChild(bullet, true);
+          (4)        System.out.println("moveTo Accomplish");
+                 }
+
+    5.06  Description
+
+          01. 这样图层或布景层这样一个类就生成了；
+          02. 接下来要把这个布景层类的对象添加到场景当中去。
+
+06. Add Background Object to Scene
+
+    6.01  Introduction
+
+    6.02  Source Code
+
+          @Override
+          protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              //setContentView(R.layout.activity_main);
+
+              view = new CCGLSurfaceView(this);
+              setContentView(view);
+
+              // 得到 CCDirector 对象
+              director = CCDirector.sharedDirector();
+
+              /* 设置应用程序相关的属性 */
+              // 设置当前游戏程序当中所使用的 view 对象
+              director.attachInView(view);
+              // 设置游戏是否显示 FPS 值
+              director.setDisplayFPS(true);
+              // 设置游戏渲染一帧数据所需要的时间
+              director.setAnimationInterval(1 / 30.0);
+
+              // 生成一个游戏场景对象
+              CCScene scene = CCScene.node();
+
+              // 生成布景层对象
+          (2) ccColor4B color = ccColor4B.ccc4(255, 255, 255, 255);
+          (1) GameLayer gameLayer = new GameLayer(color);
+
+              // 将布景层对象添加至游戏场景当中
+          (3) scene.addChild(gameLayer);
+
+          }
+
+    6.03  Description
+
+07. Run this Scene Objects
+
+    7.01  Introduction
+
+    7.02  Source Code
+
+          @Override
+          protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              //setContentView(R.layout.activity_main);
+
+              view = new CCGLSurfaceView(this);
+              setContentView(view);
+
+              // 得到 CCDirector 对象
+              director = CCDirector.sharedDirector();
+
+              /* 设置应用程序相关的属性 */
+              // 设置当前游戏程序当中所使用的 view 对象
+              director.attachInView(view);
+              // 设置游戏是否显示 FPS 值
+              director.setDisplayFPS(true);
+              // 设置游戏渲染一帧数据所需要的时间
+              director.setAnimationInterval(1 / 30.0);
+
+              // 生成一个游戏场景对象
+              CCScene scene = CCScene.node();
+
+              // 生成布景层对象
+              ccColor4B c = ccColor4B.ccc4(255, 255, 255, 255);
+              GameLayer gameLayer = new GameLayer(c);
+
+              // 将布景层对象添加至游戏场景当中
+              scene.addChild(gameLayer);
+
+              // 运行游戏场景
+          (1) director.runWithScene(scene);
+
+          }
+
+    7.03  Description
+
+08. Running and Debugging
+
+    8.01  Run As --> Android Application
+
+    8.02  Logcat
+
+    8.03  Refactoring
